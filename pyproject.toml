@@ -11,4 +11,6 @@ dependencies = [
     "dj-database-url>=3.0.0",
     "psycopg2-binary>=2.9.10",
     "ruff>=0.11.9",
+    "django-bootstrap5>=25.1",
+    "whitenoise>=6.9.0",
 ]
