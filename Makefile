@@ -16,4 +16,4 @@ dev:
 		python manage.py runserver
 
 render-start:
-		gunicorn --bind 0.0.0.0:$(PORT) task_manager.wsgi:application
+		uv run gunicorn --bind 0.0.0.0:$(PORT) task_manager.wsgi:application
