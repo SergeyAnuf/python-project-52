@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.urls import path
+from django.views.generic import TemplateView
 
+class HomeView(TemplateView):
+    template_name = "index.html"
 
-def index(request):
-    return render(
-        request,
-        "index.html",
-    )
+urlpatterns = [
+    path('', HomeView.as_view(), name='home'),
+]

@@ -1,2 +1,10 @@
-<h1>Приветствую! Менеджер задач</h1>
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="jumbotron text-center">
+    <h1 class="display-4">{% trans "Привет от Хекслета!" %}</h1>
+    <p class="lead">{% trans "Практические курсы по программированию" %}</p>
+</div>
+{% endblock %}
 
