@@ -4,35 +4,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% trans "Service Name" %}</title>
+    <title>{% trans "Task Manager" %}</title>
     {% bootstrap_css %}
     {% bootstrap_javascript %}
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+<body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">{% trans "Service" %}</a>
+            <a class="navbar-brand" href="/">{% trans "Task Manager" %}</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'users' %}">{% trans "Users" %}</a>
+                        <a class="nav-link" href="{% url 'users:users' %}">{% trans "Users" %}</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <span class="navbar-text me-3">{% trans "Welcome" %}, {{ user.username }}</span>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-outline-primary me-2" href="{% url 'login' %}">{% trans "Login" %}</a>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-light">{% trans "Logout" %}</button>
+                        </form>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="btn btn-outline-light me-2" href="{% url 'login' %}">{% trans "Login" %}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-primary" href="{% url 'register' %}">{% trans "Register" %}</a>
+                        <a class="btn btn-light" href="{% url 'users:register' %}">{% trans "Register" %}</a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container mt-5">
+    <main class="container my-4 flex-grow-1">
+        {% bootstrap_messages %}
         {% block content %}{% endblock %}
-    </div>
+    </main>
+
+    <footer class="bg-dark text-white py-3 mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; {% now "Y" %} {% trans "Task Manager" %}</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-white me-3">{% trans "About" %}</a>
+                    <a href="#" class="text-white">{% trans "Contact" %}</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

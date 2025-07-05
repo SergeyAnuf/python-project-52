@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
-# скачиваем uv
+# Скачиваем uv
 curl -LsSf https://astral.sh/uv/install.sh | sh
-. $HOME/.local/bin/env
+source $HOME/.cargo/env
 
-# здесь добавьте все необходимые команды для установки вашего проекта
-# команду установки зависимостей, сборки статики, применения миграций и другие
-make install && make collectstatic && make migrate
+# Установка зависимостей
+uv pip install -r requirements.txt
+
+# Миграции и сборка статики
+python manage.py migrate
+python manage.py collectstatic --noinput
