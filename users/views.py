@@ -11,6 +11,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.utils.translation import gettext as _
 from .forms import UserForm
+from django.utils.translation import gettext_lazy as _
 
 
 class UserListView(ListView):
@@ -27,7 +28,7 @@ class UserCreateView(CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        messages.success(self.request, _('User created successfully!'))
+        messages.success(self.request, _('Пользователь успешно зарегистрирован!'))
         return response
 
 
@@ -35,21 +36,21 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserForm
     template_name = 'users/form.html'
-    success_url = reverse_lazy('users')
+    success_url = reverse_lazy('users:users')
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        messages.success(self.request, _('User updated successfully!'))
+        messages.success(self.request, _('Пользователь успешно изменен!'))
         return response
 
 
 class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = User
     template_name = 'users/delete.html'
-    success_url = reverse_lazy('users')
+    success_url = reverse_lazy('users:users')
 
     def form_valid(self, form):
-        messages.success(self.request, _('User deleted successfully!'))
+        messages.success(self.request, _('Пользователь успешно удален!'))
         return super().form_valid(form)
 
 
@@ -58,7 +59,7 @@ class CustomLoginView(LoginView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        messages.success(self.request, _('You are logged in!'))
+        messages.success(self.request, _('Вы вошли!'))
         return response
 
     def get_success_url(self):
@@ -67,5 +68,5 @@ class CustomLoginView(LoginView):
 
 def custom_logout(request):
     logout(request)
-    messages.success(request, _('You are logged out!'))
+    messages.success(request, _('Вы вышли!'))
     return redirect('home')

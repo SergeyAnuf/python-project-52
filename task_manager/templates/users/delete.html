@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h1>{% trans "Удалить пользователя" %}</h1>
+<p>{% trans "Вы действительно хотите удалить" %} {{ user.username }}?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">{% trans "Да, удалить" %}</button>
+    <a href="{% url 'users:users' %}" class="btn btn-secondary">{% trans "Отмена" %}</a>
+</form>
+{% endblock %}

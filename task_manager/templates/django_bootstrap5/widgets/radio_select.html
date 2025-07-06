@@ -1,0 +1,7 @@
+{% load django_bootstrap5 %}
+<div class="form-check">
+    {% for choice in widget.choices %}
+        <input type="radio" name="{{ widget.name }}" id="{{ widget.attrs.id }}_{{ forloop.counter0 }}" value="{{ choice.0 }}" class="form-check-input" {% if choice.0 in widget.value %}checked{% endif %}>
+        <label for="{{ widget.attrs.id }}_{{ forloop.counter0 }}" class="form-check-label">{{ choice.1 }}</label><br>
+    {% endfor %}
+</div>

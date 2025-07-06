@@ -16,8 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from task_manager.views import HomeView
+from task_manager.views import HomeView, handler404, handler500
 from users.views import CustomLoginView, custom_logout
+
+handler404 = 'task_manager.views.handler404'
+handler500 = 'task_manager.views.handler500'
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),

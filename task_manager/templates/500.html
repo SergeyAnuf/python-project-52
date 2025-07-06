@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h1>{% trans "500 Server Error" %}</h1>
+    <p>{% trans "An unexpected error has occurred. We're working to fix it!" %}</p>
+    <a href="{% url 'home' %}" class="btn btn-primary">{% trans "Go to Homepage" %}</a>
+</div>
+{% endblock %}

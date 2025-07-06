@@ -1,0 +1,7 @@
+{% load django_bootstrap5 %}
+<div class="btn-group" role="group" aria-label="Radio button group">
+    {% for choice in widget.choices %}
+        <input type="radio" class="btn-check" name="{{ widget.name }}" id="{{ widget.attrs.id }}_{{ forloop.counter0 }}" autocomplete="off" value="{{ choice.0 }}" {% if choice.0 in widget.value %}checked{% endif %}>
+        <label class="btn btn-outline-primary" for="{{ widget.attrs.id }}_{{ forloop.counter0 }}">{{ choice.1 }}</label>
+    {% endfor %}
+</div>

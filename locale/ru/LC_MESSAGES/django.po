@@ -39,15 +39,15 @@ msgstr ""
 
 #: task_manager/templates/base.html:21
 msgid "Users"
-msgstr ""
+msgstr "Пользователи"
 
 #: task_manager/templates/base.html:24
 msgid "Login"
-msgstr ""
+msgstr "Вход"
 
 #: task_manager/templates/base.html:27
 msgid "Register"
-msgstr ""
+msgstr "Регистрация"
 
 #: task_manager/templates/index.html:6
 msgid "Привет от Хекслета!"
@@ -56,3 +56,27 @@ msgstr ""
 #: task_manager/templates/index.html:7
 msgid "Практические курсы по программированию"
 msgstr ""
+
+msgid "Username"
+msgstr "Имя пользователя"
+
+msgid "Full name"
+msgstr "Полное имя"
+
+msgid "Created at"
+msgstr "Дата создания"
+
+msgid "Actions"
+msgstr "Действия"
+
+msgid "Update"
+msgstr "Изменить"
+
+msgid "Delete"
+msgstr "Удалить"
+
+msgid "Welcome"
+msgstr "Добро пожаловать"
+
+msgid "Logout"
+msgstr "Выход"
