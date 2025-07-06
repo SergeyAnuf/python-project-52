@@ -28,4 +28,5 @@ urlpatterns = [
     path('users/', include('users.urls')),  # Включите URL пользователей
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', custom_logout, name='logout'),
+    path('statuses/', include('statuses.urls')),
 ]

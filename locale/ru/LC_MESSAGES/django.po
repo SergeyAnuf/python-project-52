@@ -80,3 +80,48 @@ msgstr "Добро пожаловать"
 
 msgid "Logout"
 msgstr "Выход"
+
+msgid "Statuses"
+msgstr "Статусы"
+
+msgid "Create status"
+msgstr "Создать статус"
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "Created at"
+msgstr "Создано"
+
+msgid "Actions"
+msgstr "Действия"
+
+msgid "Update"
+msgstr "Изменить"
+
+msgid "Delete"
+msgstr "Удалить"
+
+msgid "No statuses yet"
+msgstr "Статусов пока нет"
+
+msgid "Delete status"
+msgstr "Удаление статуса"
+
+msgid "Are you sure you want to delete status"
+msgstr "Вы уверены, что хотите удалить статус"
+
+msgid "Yes, delete"
+msgstr "Да, удалить"
+
+msgid "Status created successfully"
+msgstr "Статус успешно создан"
+
+msgid "Status updated successfully"
+msgstr "Статус успешно обновлен"
+
+msgid "Status deleted successfully"
+msgstr "Статус успешно удален"
+
+msgid "Cannot delete status because it is in use"
+msgstr "Невозможно удалить статус, так как он используется"
