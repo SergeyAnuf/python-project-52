@@ -125,3 +125,48 @@ msgstr "Статус успешно удален"
 
 msgid "Cannot delete status because it is in use"
 msgstr "Невозможно удалить статус, так как он используется"
+
+msgid "Tasks"
+msgstr "Задачи"
+
+msgid "Create task"
+msgstr "Создать задачу"
+
+msgid "Description"
+msgstr "Описание"
+
+msgid "Author"
+msgstr "Автор"
+
+msgid "Executor"
+msgstr "Исполнитель"
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "No tasks yet"
+msgstr "Задач пока нет"
+
+msgid "Task view"
+msgstr "Просмотр задачи"
+
+msgid "Delete task"
+msgstr "Удаление задачи"
+
+msgid "Are you sure you want to delete task"
+msgstr "Вы уверены, что хотите удалить задачу"
+
+msgid "Task created successfully"
+msgstr "Задача успешно создана"
+
+msgid "Task updated successfully"
+msgstr "Задача успешно обновлена"
+
+msgid "Task deleted successfully"
+msgstr "Задача успешно удалена"
+
+msgid "Cannot delete task"
+msgstr "Не удалось удалить задачу"
+
+msgid "Only task author can delete task"
+msgstr "Только автор задачи может её удалить"

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">{% trans "Просмотр задачи" %}</h1>
+
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            <h2>{{ task.name }}</h2>
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{ task.description }}</p>
+            <div class="container">
+                <div class="row border-bottom p-2">
+                    <div class="col fw-bold">{% trans "Автор" %}</div>
+                    <div class="col">{{ task.author.username }}</div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col fw-bold">{% trans "Исполнитель" %}</div>
+                    <div class="col">{{ task.executor.username|default:"-" }}</div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col fw-bold">{% trans "Статус" %}</div>
+                    <div class="col">{{ task.status.name }}</div>
+                </div>
+                <div class="row border-bottom p-2">
+                    <div class="col fw-bold">{% trans "Создана" %}</div>
+                    <div class="col">{{ task.created_at|date:"d.m.Y H:i" }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="{% url 'tasks:update' task.id %}" class="btn btn-primary">
+                {% trans "Обновить" %}
+            </a>
+            <a href="{% url 'tasks:delete' task.id %}" class="btn btn-danger">
+                {% trans "Удалить" %}
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

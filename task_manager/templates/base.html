@@ -30,6 +30,9 @@
                         <a class="nav-link" href="{% url 'statuses:list' %}">{% trans "Статусы" %}</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tasks:list' %}">{% trans "Задачи" %}</a>
+                    </li>
+                    <li class="nav-item">
                         <form action="{% url 'logout' %}" method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-outline-light">{% trans "Выход" %}</button>

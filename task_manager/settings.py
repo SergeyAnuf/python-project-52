@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     'users.apps.UsersConfig',
     'statuses',
+    'tasks',
 ]
 
 # ... остальная часть settings.py без изменений ...
@@ -158,6 +159,7 @@ LOGGING = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
+AUTH_USER_MODEL = 'auth.User'
 
 LANGUAGE_CODE = 'ru-ru'
 
