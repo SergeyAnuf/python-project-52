@@ -170,3 +170,30 @@ msgstr "Не удалось удалить задачу"
 
 msgid "Only task author can delete task"
 msgstr "Только автор задачи может её удалить"
+
+msgid "Labels"
+msgstr "Метки"
+
+msgid "Create label"
+msgstr "Создать метку"
+
+msgid "No labels yet"
+msgstr "Меток пока нет"
+
+msgid "Delete label"
+msgstr "Удаление метки"
+
+msgid "Are you sure you want to delete label"
+msgstr "Вы уверены, что хотите удалить метку"
+
+msgid "Label created successfully"
+msgstr "Метка успешно создана"
+
+msgid "Label updated successfully"
+msgstr "Метка успешно обновлена"
+
+msgid "Label deleted successfully"
+msgstr "Метка успешно удалена"
+
+msgid "Cannot delete label because it is in use"
+msgstr "Невозможно удалить метку, так как она используется"

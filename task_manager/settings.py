@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'statuses',
     'tasks',
+    'labels',
 ]
 
 # ... остальная часть settings.py без изменений ...

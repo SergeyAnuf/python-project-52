@@ -30,4 +30,5 @@ urlpatterns = [
     path('logout/', custom_logout, name='logout'),
     path('statuses/', include('statuses.urls')),
     path('tasks/', include('tasks.urls')),
+    path('labels/', include('labels.urls')),
 ]

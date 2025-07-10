@@ -39,6 +39,12 @@ class Task(models.Model):
         related_name='tasks',
         verbose_name=_('Status')
     )
+    labels = models.ManyToManyField(
+        'labels.Label',
+        related_name='tasks',
+        blank=True,
+        verbose_name=_('Labels')
+    )
 
     def __str__(self):
         return self.name

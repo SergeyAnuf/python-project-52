@@ -10,7 +10,7 @@ User = get_user_model()
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['name', 'description', 'status', 'executor']
+        fields = ['name', 'description', 'status', 'executor', 'labels']
         labels = {
             'name': _('Имя'),
             'description': _('Описание'),
@@ -29,3 +29,4 @@ class TaskForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['status'].queryset = Status.objects.all()
         self.fields['executor'].queryset = User.objects.all()
+        self.fields['labels'].queryset = Label.objects.all()

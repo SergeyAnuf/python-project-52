@@ -25,6 +25,16 @@
                     <div class="col">{{ task.status.name }}</div>
                 </div>
                 <div class="row border-bottom p-2">
+                    <div class="col fw-bold">{% trans "Метки" %}</div>
+                    <div class="col">
+                        {% for label in task.labels.all %}
+                            <span class="badge bg-secondary">{{ label.name }}</span>
+                        {% empty %}
+                            {% trans "No labels" %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row border-bottom p-2">
                     <div class="col fw-bold">{% trans "Создана" %}</div>
                     <div class="col">{{ task.created_at|date:"d.m.Y H:i" }}</div>
                 </div>

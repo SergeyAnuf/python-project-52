@@ -3,14 +3,15 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="my-4">{{ title }}</h1>
+    <h1 class="my-4">
+        {% if object %}{% trans "Обновить метку" %}{% else %}{% trans "Создать метку" %}{% endif %}
+    </h1>
 
     <form method="post">
         {% csrf_token %}
-        {% bootstrap_field form.labels %}
         {% bootstrap_form form %}
         <button type="submit" class="btn btn-primary">
-            {% trans "Cохранить" %}
+            {% trans "Сохранить" %}
         </button>
     </form>
 </div>
