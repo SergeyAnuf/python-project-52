@@ -197,3 +197,12 @@ msgstr "Метка успешно удалена"
 
 msgid "Cannot delete label because it is in use"
 msgstr "Невозможно удалить метку, так как она используется"
+
+msgid "Filter"
+msgstr "Фильтр"
+
+msgid "Only my tasks"
+msgstr "Только мои задачи"
+
+msgid "No tasks found matching your criteria"
+msgstr "Задачи по вашему запросу не найдены"

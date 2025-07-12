@@ -30,10 +30,10 @@
                         <a class="nav-link" href="{% url 'statuses:list' %}">{% trans "Статусы" %}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'tasks:list' %}">{% trans "Задачи" %}</a>
+                        <a class="nav-link" href="{% url 'labels:list' %}">{% trans "Метки" %}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'labels:list' %}">{% trans "Метки" %}</a>
+                        <a class="nav-link" href="{% url 'tasks:list' %}">{% trans "Задачи" %}</a>
                     </li>
                     <li class="nav-item">
                         <form action="{% url 'logout' %}" method="post">

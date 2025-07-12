@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'statuses',
     'tasks',
     'labels',
+    'django_filters',
 ]
 
 # ... остальная часть settings.py без изменений ...
