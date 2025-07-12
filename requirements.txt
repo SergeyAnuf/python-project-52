@@ -4,5 +4,4 @@ whitenoise
 django-bootstrap5
 dj-database-url
 python-dotenv
-uv
 django-filter
