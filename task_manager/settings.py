@@ -14,6 +14,8 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
+from django.http import Http404
+from django.core.exceptions import PermissionDenied
 
 import sys
 BASE_DIR = Path(__file__).resolve().parent.parent
