@@ -38,11 +38,7 @@ import rollbar
 # Rollbar Settings
 ROLLBAR_ACCESS_TOKEN = os.getenv('ROLLBAR_ACCESS_TOKEN')
 
-if ROLLBAR_ACCESS_TOKEN:
-    # Middleware
-    MIDDLEWARE += [
-        'rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404',
-    ]
+
 
     # Rollbar Configuration
     ROLLBAR = {
@@ -112,6 +108,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',  # для i18n
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404',
 ]
 
 ROOT_URLCONF = 'task_manager.urls'
