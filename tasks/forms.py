@@ -9,12 +9,12 @@ User = get_user_model()
 
 
 class TaskForm(forms.ModelForm):
-    labels = forms.ModelMultipleChoiceField(
-        queryset=Label.objects.all(),  # Теперь Label определен
-        required=False,
-        widget=forms.SelectMultiple(attrs={'class': 'form-select'}),
-        label=_('Метка')
-    )
+#    labels = forms.ModelMultipleChoiceField(
+#        queryset=Label.objects.all(),  # Теперь Label определен
+#        required=False,
+#        widget=forms.SelectMultiple(attrs={'class': 'form-select'}),
+#        label=_('Метка')
+#    )
 
     class Meta:
         model = Task
@@ -24,12 +24,14 @@ class TaskForm(forms.ModelForm):
             'description': _('Содержание'),
             'status': _('Статус'),
             'executor': _('Исполнитель'),
+            'labels': _('Метка'),
         }
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'status': forms.Select(attrs={'class': 'form-select'}),
             'executor': forms.Select(attrs={'class': 'form-select'}),
+            'labels': forms.SelectMultiple(attrs={'class': 'form-select'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -39,3 +41,4 @@ class TaskForm(forms.ModelForm):
         self.fields['executor'].queryset = User.objects.all()
         # Теперь Label определен, поэтому эта строка будет работать
         self.fields['labels'].queryset = Label.objects.all()
+        self.fields['labels'].label = _('Метка')

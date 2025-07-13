@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from task_manager.views import HomeView, handler404, handler500
 from users.views import CustomLoginView, custom_logout
+from .views import trigger_error
 
 handler404 = 'task_manager.views.handler404'
 handler500 = 'task_manager.views.handler500'
@@ -31,4 +32,5 @@ urlpatterns = [
     path('statuses/', include('statuses.urls')),
     path('tasks/', include('tasks.urls')),
     path('labels/', include('labels.urls')),
+    path('error-test/', trigger_error, name='error-test'),
 ]

@@ -32,6 +32,36 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-backup-key')
 #DEBUG = os.getenv('DEBUG', 'True') == 'True'
 DEBUG = True
 
+import os
+import rollbar
+
+# Rollbar Settings
+ROLLBAR_ACCESS_TOKEN = os.getenv('ROLLBAR_ACCESS_TOKEN')
+
+if ROLLBAR_ACCESS_TOKEN:
+    # Middleware
+    MIDDLEWARE += [
+        'rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404',
+    ]
+
+    # Rollbar Configuration
+    ROLLBAR = {
+        'access_token': ROLLBAR_ACCESS_TOKEN,
+        'environment': 'development' if DEBUG else 'production',
+        'scrub_fields': ['password', 'secret', 'token', 'api_key'],
+        'branch': 'main',
+        'code_version': '1.0',
+        'root': BASE_DIR,
+        'exception_level_filters': [
+            (Http404, 'ignored'),
+            (PermissionDenied, 'warning'),
+        ],
+        'enabled': not DEBUG,  # Отключаем в режиме разработки
+    }
+
+    # Initialize Rollbar
+    rollbar.init(**ROLLBAR)
+
 ALLOWED_HOSTS = [
     'python-project-52-ru09.onrender.com',
     'webserver',
@@ -142,18 +172,16 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
+        'rollbar': {
+            'access_token': ROLLBAR_ACCESS_TOKEN,
+            'class': 'rollbar.logger.RollbarHandler',
+            'level': 'ERROR',
         },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'DEBUG',
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
+            'handlers': ['rollbar'],
+            'level': 'ERROR',
             'propagate': True,
         },
     },
