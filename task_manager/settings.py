@@ -41,22 +41,22 @@ ROLLBAR_ACCESS_TOKEN = os.getenv('ROLLBAR_ACCESS_TOKEN')
 
 
     # Rollbar Configuration
-    ROLLBAR = {
-        'access_token': ROLLBAR_ACCESS_TOKEN,
-        'environment': 'development' if DEBUG else 'production',
-        'scrub_fields': ['password', 'secret', 'token', 'api_key'],
-        'branch': 'main',
-        'code_version': '1.0',
-        'root': BASE_DIR,
-        'exception_level_filters': [
-            (Http404, 'ignored'),
-            (PermissionDenied, 'warning'),
-        ],
-        'enabled': not DEBUG,  # Отключаем в режиме разработки
-    }
+ROLLBAR = {
+    'access_token': ROLLBAR_ACCESS_TOKEN,
+    'environment': 'development' if DEBUG else 'production',
+    'scrub_fields': ['password', 'secret', 'token', 'api_key'],
+    'branch': 'main',
+    'code_version': '1.0',
+    'root': BASE_DIR,
+    'exception_level_filters': [
+        (Http404, 'ignored'),
+        (PermissionDenied, 'warning'),
+    ],
+    'enabled': not DEBUG,  # Отключаем в режиме разработки
+}
 
-    # Initialize Rollbar
-    rollbar.init(**ROLLBAR)
+# Initialize Rollbar
+rollbar.init(**ROLLBAR)
 
 ALLOWED_HOSTS = [
     'python-project-52-ru09.onrender.com',
