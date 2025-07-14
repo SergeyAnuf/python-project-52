@@ -25,14 +25,18 @@ __________________________________________________________________________
     rollbar>=1.3.0
 ***
 Local start:
-
+````
 python manage.py runserver
+````
 ***
 Command on render.com:
 
 build:
+````
 uv sync --frozen && uv cache prune --ci && python manage.py collectstatic --noinput
-
+````
 start:
+````
 gunicorn --bind 0.0.0.0:$(PORT) task_manager.wsgi:application
+````
 ***
