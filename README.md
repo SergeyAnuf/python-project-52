@@ -5,3 +5,29 @@
 __________________________________________________________________________
 Ссылка на проект на Render:
 https://python-project-52-ru09.onrender.com
+__________________________________________________________________________
+Requiremtnts:
+    python>=3.12
+    uv>=0.7.3
+    django>=5.2.3
+    gunicorn>=23.0.0
+    python-dotenv>=1.1.1
+    dj-database-url>=3.0.0
+    psycopg2-binary>=2.9.10
+    ruff>=0.11.9
+    django-bootstrap5>=25.1
+    whitenoise>=6.9.0
+    django-filter>=24.2
+    rollbar>=1.3.0
+____________________________________________________________________________
+Local start:
+
+python manage.py runserver
+_____________________________________________________________________________
+Command on render.com:
+
+build:
+uv sync --frozen && uv cache prune --ci && python manage.py collectstatic --noinput
+
+start:
+gunicorn --bind 0.0.0.0:$(PORT) task_manager.wsgi:application
