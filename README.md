@@ -23,7 +23,26 @@ __________________________________________________________________________
     whitenoise>=6.9.0
     django-filter>=24.2
     rollbar>=1.3.0
+## Installation:
+
+````
+git clone git@github.com:SergeyAnuf/python-project-52.git
+````
+
+````
+cd python-project-52
+````
+
+`````
+uv build
+``````
+
+````````
+uv tool install dist/*.whl
+````````
+
 ***
+
 Local start:
 ````
 python manage.py runserver
