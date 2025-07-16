@@ -30,15 +30,11 @@ class TaskFilter(django_filters.FilterSet):
         widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
     )
 
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)
-        super().__init__(*args, **kwargs)
-
     class Meta:
         model = Task
-        fields = ['status', 'executor', 'labels', 'self_tasks']
+        fields = ['status', 'executor', 'labels']
 
     def filter_self_tasks(self, queryset, name, value):
-        if value:
+        if value and self.request and self.request.user.is_authenticated:
             return queryset.filter(author=self.request.user)
         return queryset

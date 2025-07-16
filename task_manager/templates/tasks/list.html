@@ -10,20 +10,20 @@
     </a>
 
     <!-- Фильтр -->
-    <div class="card mb-4">
-        <div class="card-header bg-secondary text-white">
-            <h2>{% trans "Фильтр" %}</h2>
-        </div>
-        <div class="card-body">
-            <form method="get">
-                {% bootstrap_form filter.form %}
-                <button type="submit" class="btn btn-primary">
-                    {% trans "Фильтр" %}
-                </button>
-            </form>
-        </div>
-    </div>
+    <form method="get">
+        {% bootstrap_form filter.form %}
 
+    <!-- Сохраняем параметры фильтрации -->
+        {% for key, value in request.GET.items %}
+            {% if key != 'self_tasks' %}
+                <input type="hidden" name="{{ key }}" value="{{ value }}">
+            {% endif %}
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary">
+            {% trans "Фильтр" %}
+        </button>
+    </form>
     {% if tasks %}
         <table class="table table-striped">
             <thead>

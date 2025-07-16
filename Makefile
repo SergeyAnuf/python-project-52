@@ -18,9 +18,6 @@ dev:
 render-start:
 		uv run gunicorn --bind 0.0.0.0:$(PORT) task_manager.wsgi:application
 
-install:
-    uv pip install -r requirements.txt
-
 collectstatic:
     python manage.py collectstatic --noinput
 
