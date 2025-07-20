@@ -44,7 +44,6 @@ class LabelCRUDTest(TestCase):
         self.assertFalse(Label.objects.filter(id=self.label.id).exists())
 
     def test_protected_delete(self):
-        # Создаем задачу, связанную с меткой
         status = Status.objects.create(name='Test Status')
         task = Task.objects.create(
             name='Test Task',
@@ -59,7 +58,6 @@ class LabelCRUDTest(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertTrue(Label.objects.filter(id=self.label.id).exists())
-        # Проверяем сообщение об ошибке
         response = self.client.get(reverse('labels:list'))
         self.assertContains(response, "Cannot delete label because it is in use")
 

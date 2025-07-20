@@ -171,27 +171,22 @@ class TaskFilterTest(TestCase):
         self.assertNotContains(response, self.task2.name)
 
     def test_filter_self_tasks(self):
-        # Создаем задачу, автором которой является user1
         task3 = Task.objects.create(
             name='Task3',
             description='Desc3',
             author=self.user1,
             status=self.status1
         )
-
-        # Фильтруем только свои задачи
         response = self.client.get(
             reverse('tasks:list'),
             {'self_tasks': 'true'}
         )
 
-        # Должны видеть task1 и task3, но не task2
         self.assertContains(response, self.task1.name)
         self.assertContains(response, task3.name)
         self.assertNotContains(response, self.task2.name)
 
     def test_filter_combined(self):
-        # Создаем задачу с комбинацией параметров
         task3 = Task.objects.create(
             name='Task3',
             description='Desc3',
@@ -200,8 +195,6 @@ class TaskFilterTest(TestCase):
             status=self.status1
         )
         task3.labels.add(self.label1)
-
-        # Фильтруем по всем параметрам
         response = self.client.get(reverse('tasks:list'), {
             'status': self.status1.id,
             'executor': self.user1.id,
@@ -209,7 +202,6 @@ class TaskFilterTest(TestCase):
             'self_tasks': 'true'
         })
 
-        # Должны видеть только task3
         self.assertContains(response, task3.name)
         self.assertNotContains(response, self.task1.name)
         self.assertNotContains(response, self.task2.name)

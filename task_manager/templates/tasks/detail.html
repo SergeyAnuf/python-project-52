@@ -30,7 +30,7 @@
                         {% for label in task.labels.all %}
                             <span class="badge bg-secondary">{{ label.name }}</span>
                         {% empty %}
-                            {% trans "No labels" %}
+                            {% trans "Нет меток" %}
                         {% endfor %}
                     </div>
                 </div>

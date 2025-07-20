@@ -19,10 +19,3 @@ def trigger_error(request):
     except Exception as e:
         rollbar.report_exc_info()
         raise e
-
-#from django.http import HttpResponse
-#from django.views import View
-
-#class HomeView(View):
-#    def get(self, request):
-#        return HttpResponse("Тестовая страница: Приложение работает!")

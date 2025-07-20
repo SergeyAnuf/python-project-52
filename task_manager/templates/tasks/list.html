@@ -8,12 +8,8 @@
     <a href="{% url 'tasks:create' %}" class="btn btn-primary mb-3">
         {% trans "Создать задачу" %}
     </a>
-
-    <!-- Фильтр -->
     <form method="get">
         {% bootstrap_form filter.form %}
-
-    <!-- Сохраняем параметры фильтрации -->
         {% for key, value in request.GET.items %}
             {% if key != 'self_tasks' %}
                 <input type="hidden" name="{{ key }}" value="{{ value }}">
@@ -21,7 +17,7 @@
         {% endfor %}
 
         <button type="submit" class="btn btn-primary">
-            {% trans "Фильтр" %}
+            {% trans "Показать" %}
         </button>
     </form>
     {% if tasks %}
@@ -51,7 +47,7 @@
                             {% trans "Обновить" %}
                         </a>
                         <a href="{% url 'tasks:delete' task.id %}" class="btn btn-sm btn-danger">
-                            {% trans "Delete" %}
+                            {% trans "Удалить" %}
                         </a>
                     </td>
                 </tr>

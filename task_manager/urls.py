@@ -26,7 +26,7 @@ handler500 = 'task_manager.views.handler500'
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
-    path('users/', include('users.urls')),  # Включите URL пользователей
+    path('users/', include('users.urls')),
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', custom_logout, name='logout'),
     path('statuses/', include('statuses.urls')),

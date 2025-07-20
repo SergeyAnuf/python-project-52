@@ -43,8 +43,6 @@ class StatusCRUDTest(TestCase):
         self.assertFalse(Status.objects.filter(id=self.status.id).exists())
 
     def test_protected_delete(self):
-        # Здесь нужно будет добавить тест после реализации задач
-        # когда статус связан с задачей
         pass
 
     def test_access_control(self):

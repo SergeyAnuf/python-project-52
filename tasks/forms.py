@@ -3,18 +3,12 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from .models import Task
 from statuses.models import Status
-from labels.models import Label  # Добавляем импорт модели Label
+from labels.models import Label
 
 User = get_user_model()
 
 
 class TaskForm(forms.ModelForm):
-#    labels = forms.ModelMultipleChoiceField(
-#        queryset=Label.objects.all(),  # Теперь Label определен
-#        required=False,
-#        widget=forms.SelectMultiple(attrs={'class': 'form-select'}),
-#        label=_('Метка')
-#    )
 
     class Meta:
         model = Task

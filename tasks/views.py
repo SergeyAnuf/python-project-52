@@ -20,11 +20,11 @@ class TaskListView(LoginRequiredMixin, FilterView):
     template_name = 'tasks/list.html'
     context_object_name = 'tasks'
     filterset_class = TaskFilter
-    ordering = ['-created_at']  # Сортировка по дате создания
+    ordering = ['-created_at']
 
     def get_filterset_kwargs(self, filterset_class):
         kwargs = super().get_filterset_kwargs(filterset_class)
-        kwargs['request'] = self.request  # Явная передача запроса
+        kwargs['request'] = self.request
         return kwargs
 
 
