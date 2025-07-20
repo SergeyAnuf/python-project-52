@@ -16,8 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from task_manager.views import HomeView, handler404, handler500
-from users.views import CustomLoginView, custom_logout
+from task_manager.views import HomeView
+from task_manager.users.views import CustomLoginView, custom_logout
 from .views import trigger_error
 
 handler404 = 'task_manager.views.handler404'
@@ -26,11 +26,11 @@ handler500 = 'task_manager.views.handler500'
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
-    path('users/', include('users.urls')),
+    path('users/', include('task_manager.users.urls')),
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', custom_logout, name='logout'),
-    path('statuses/', include('statuses.urls')),
-    path('tasks/', include('tasks.urls')),
-    path('labels/', include('labels.urls')),
+    path('statuses/', include('task_manager.statuses.urls')),
+    path('tasks/', include('task_manager.tasks.urls')),
+    path('labels/', include('task_manager.labels.urls')),
     path('error-test/', trigger_error, name='error-test'),
 ]

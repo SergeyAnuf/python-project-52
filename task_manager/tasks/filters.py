@@ -2,9 +2,9 @@ import django_filters
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from .models import Task
-from statuses.models import Status
+from task_manager.statuses.models import Status
 from django.contrib.auth import get_user_model
-from labels.models import Label
+from task_manager.labels.models import Label
 
 User = get_user_model()
 

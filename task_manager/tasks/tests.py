@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from statuses.models import Status
+from task_manager.statuses import Status
 from .models import Task
 
 
