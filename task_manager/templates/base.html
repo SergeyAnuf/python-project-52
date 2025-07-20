@@ -38,12 +38,12 @@
                     <li class="nav-item">
                         <form action="{% url 'logout' %}" method="post">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-light">{% trans "Выход" %}</button>
+                            <button type="submit" class="btn btn-outline-light">{% trans "Выйти" %}</button>
                         </form>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="btn btn-outline-light me-2" href="{% url 'login' %}">{% trans "Вход" %}</a>
+                        <a class="btn btn-outline-light me-2" href="{% url 'login' %}">{% trans "Войти" %}</a>
                     </li>
                     <li class="nav-item">
                         <a class="btn btn-light" href="{% url 'users:register' %}">{% trans "Регистрация" %}</a>
