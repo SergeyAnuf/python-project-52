@@ -16,8 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from src.task_manager.views import HomeView
-from src.task_manager.users.views import CustomLoginView, custom_logout
+from task_manager.views import HomeView
+from task_manager.users.views import CustomLoginView, custom_logout
 from .views import trigger_error
 
 handler404 = 'task_manager.views.handler404'
