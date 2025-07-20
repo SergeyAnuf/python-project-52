@@ -118,7 +118,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates',
+            BASE_DIR / 'src/task_manager/templates',
             BASE_DIR / 'templates/django_bootstrap5',
         ],
         'APP_DIRS': True,
@@ -196,7 +196,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR /'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "src/staticfiles",
 ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

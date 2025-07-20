@@ -4,7 +4,7 @@ from django.db import models
 from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
-from task_manager.statuses.models import Status
+from ..statuses.models import Status
 
 class Task(models.Model):
     name = models.CharField(
