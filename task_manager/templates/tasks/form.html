@@ -9,7 +9,23 @@
 
     <form method="post">
         {% csrf_token %}
-        {% bootstrap_form form %}
+
+        {% bootstrap_field form.name %}
+        {% bootstrap_field form.description %}
+        {% bootstrap_field form.status %}
+        {% bootstrap_field form.executor %}
+
+        <div class="mb-3">
+            <label class="form-label">{% trans "Метки" %}</label>
+            <div class="border p-3 rounded">
+                {% for checkbox in form.labels %}
+                <div class="form-check">
+                    {{ checkbox }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
         <button type="submit" class="btn btn-primary">
             {% trans "Сохранить" %}
         </button>

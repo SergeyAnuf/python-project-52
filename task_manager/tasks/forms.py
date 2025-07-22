@@ -1,38 +1,45 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.utils.translation import gettext_lazy as _
 from .models import Task
-from ..statuses.models import Status
-from ..labels.models import Label
+from task_manager.statuses.models import Status
+from task_manager.labels.models import Label
+from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
 
 class TaskForm(forms.ModelForm):
+    labels = forms.ModelMultipleChoiceField(
+        queryset=Label.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+        label=_('Labels')
+    )
 
     class Meta:
         model = Task
         fields = ['name', 'description', 'status', 'executor', 'labels']
-        labels = {
-            'name': _('Имя'),
-            'description': _('Содержание'),
-            'status': _('Статус'),
-            'executor': _('Исполнитель'),
-            'labels': _('Метка'),
-        }
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'status': forms.Select(attrs={'class': 'form-select'}),
-            'executor': forms.Select(attrs={'class': 'form-select'}),
-            'labels': forms.SelectMultiple(attrs={'class': 'form-select'}),
+            'description': forms.Textarea(attrs={'rows': 4}),
+        }
+        labels = {
+            'name': _('Name'),
+            'description': _('Description'),
+            'status': _('Status'),
+            'executor': _('Executor'),
         }
 
     def __init__(self, *args, **kwargs):
+        # Извлекаем user из kwargs перед вызовом super()
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
-        self.fields['status'].queryset = Status.objects.all()
+
+        # Обновляем queryset'ы с учетом пользователя (если нужно)
         self.fields['executor'].queryset = User.objects.all()
-        # Теперь Label определен, поэтому эта строка будет работать
-        self.fields['labels'].queryset = Label.objects.all()
-        self.fields['labels'].label = _('Метка')
+        self.fields['status'].queryset = Status.objects.all()
+
+        # Улучшаем отображение полей
+        self.fields['name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['description'].widget.attrs.update({'class': 'form-control'})
+        self.fields['status'].widget.attrs.update({'class': 'form-select'})
+        self.fields['executor'].widget.attrs.update({'class': 'form-select'})

@@ -12,18 +12,7 @@
         <div class="card-body">
             <p class="card-text">{{ task.description }}</p>
             <div class="container">
-                <div class="row border-bottom p-2">
-                    <div class="col fw-bold">{% trans "Автор" %}</div>
-                    <div class="col">{{ task.author.username }}</div>
-                </div>
-                <div class="row border-bottom p-2">
-                    <div class="col fw-bold">{% trans "Исполнитель" %}</div>
-                    <div class="col">{{ task.executor.username|default:"-" }}</div>
-                </div>
-                <div class="row border-bottom p-2">
-                    <div class="col fw-bold">{% trans "Статус" %}</div>
-                    <div class="col">{{ task.status.name }}</div>
-                </div>
+                <!-- ... остальные поля ... -->
                 <div class="row border-bottom p-2">
                     <div class="col fw-bold">{% trans "Метки" %}</div>
                     <div class="col">
@@ -34,10 +23,7 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="row border-bottom p-2">
-                    <div class="col fw-bold">{% trans "Создана" %}</div>
-                    <div class="col">{{ task.created_at|date:"d.m.Y H:i" }}</div>
-                </div>
+                <!-- ... остальные поля ... -->
             </div>
         </div>
         <div class="card-footer">

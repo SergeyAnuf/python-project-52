@@ -1,6 +1,4 @@
 from django.shortcuts import render
-
-# Create your views here.
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -15,7 +13,6 @@ from django_filters.views import FilterView
 from .filters import TaskFilter
 from task_manager.labels.models import Label
 
-
 class TaskListView(LoginRequiredMixin, FilterView):
     model = Task
     template_name = 'tasks/list.html'
@@ -27,12 +24,6 @@ class TaskListView(LoginRequiredMixin, FilterView):
         kwargs = super().get_filterset_kwargs(filterset_class)
         kwargs['request'] = self.request
         return kwargs
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['labels'] = Label.objects.all()
-        return context
-
 
 class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Task
@@ -48,19 +39,17 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
+        # Убираем передачу 'user' в форму, так как она больше не требуется
         return kwargs
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
     template_name = 'tasks/detail.html'
     context_object_name = 'task'
-
 
 class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Task
@@ -74,6 +63,10 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         context['title'] = _('Обновить задачу')
         return context
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        # Убираем передачу 'user' в форму, так как она больше не требуется
+        return kwargs
 
 class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
