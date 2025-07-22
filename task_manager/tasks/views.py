@@ -13,6 +13,7 @@ from .models import Task
 from .forms import TaskForm
 from django_filters.views import FilterView
 from .filters import TaskFilter
+from task_manager.labels.models import Label
 
 
 class TaskListView(LoginRequiredMixin, FilterView):
@@ -26,6 +27,11 @@ class TaskListView(LoginRequiredMixin, FilterView):
         kwargs = super().get_filterset_kwargs(filterset_class)
         kwargs['request'] = self.request
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['labels'] = Label.objects.all()
+        return context
 
 
 class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):

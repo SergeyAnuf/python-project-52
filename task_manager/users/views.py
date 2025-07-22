@@ -12,6 +12,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.utils.translation import gettext as _
 from .forms import UserForm
 from django.utils.translation import gettext_lazy as _
+from task_manager.tasks.models import Task
 
 
 class UserListView(ListView):
@@ -38,20 +39,36 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'users/form.html'
     success_url = reverse_lazy('users:users')
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.pk != self.get_object().pk:
+            messages.error(request, _('У вас нет прав для изменения другого пользователя.'))
+            return redirect('users:users')
+        return super().dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         response = super().form_valid(form)
         messages.success(self.request, _('Пользователь успешно изменен!'))
         return response
 
-
 class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = User
     template_name = 'users/delete.html'
     success_url = reverse_lazy('users:users')
+    error_message = _('Невозможно удалить пользователя, потому что он связан с задачей')
 
-    def form_valid(self, form):
-        messages.success(self.request, _('Пользователь успешно удален!'))
-        return super().form_valid(form)
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.pk != self.get_object().pk:
+            messages.error(request, _('У вас нет прав для изменения другого пользователя.'))
+            return redirect('users:users')
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        user = self.get_object()
+        if Task.objects.filter(author=user).exists() or Task.objects.filter(executor=user).exists():
+            messages.error(request, self.error_message)
+            return redirect(self.success_url)
+        messages.success(request, _('Пользователь успешно удален!'))
+        return self.delete(request, *args, **kwargs)
 
 
 class CustomLoginView(LoginView):

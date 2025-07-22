@@ -2,11 +2,29 @@
 {% load i18n %}
 
 {% block content %}
-<h1>{% trans "Удалить пользователя" %}</h1>
-<p>{% trans "Вы действительно хотите удалить" %} {{ user.username }}?</p>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">{% trans "Да, удалить" %}</button>
-    <a href="{% url 'users:users' %}" class="btn btn-secondary">{% trans "Отмена" %}</a>
-</form>
+<div class="container">
+    <h1 class="my-4">{% trans "Удалить пользователя" %}</h1>
+
+    {% if object.id != request.user.id %}
+    <div class="alert alert-danger" role="alert">
+        {% trans "Вы не можете удалить другого пользователя" %}
+    </div>
+    <a href="{% url 'users:users' %}" class="btn btn-secondary">{% trans "Вернуться к списку пользователей" %}</a>
+    {% else %}
+    <p>{% trans "Вы уверены, что хотите удалить" %} {{ object.username }}?</p>
+
+    {% if tasks_exist %}
+    <div class="alert alert-danger" role="alert">
+        {% trans "Невозможно удалить пользователя, потому что он связан с задачей" %}
+    </div>
+    <a href="{% url 'users:users' %}" class="btn btn-secondary">{% trans "Вернуться к списку пользователей" %}</a>
+    {% else %}
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">{% trans "Да, удалить" %}</button>
+        <a href="{% url 'users:users' %}" class="btn btn-secondary">{% trans "Отмена" %}</a>
+    </form>
+    {% endif %}
+    {% endif %}
+</div>
 {% endblock %}

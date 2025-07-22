@@ -5,12 +5,26 @@
 <div class="container">
     <h1 class="my-4">{% trans "Удалить статус" %}</h1>
 
-    <p>{% trans "Вы действительно хотите удалить статус" %} <strong>{{ object.name }}</strong>?</p>
+    {% if not user.is_authenticated %}
+    <div class="alert alert-danger" role="alert">
+        {% trans "Вы не авторизованы! Пожалуйста, войдите в систему." %}
+    </div>
+    <a href="{% url 'login' %}" class="btn btn-primary">{% trans "Войти" %}</a>
+    {% else %}
+        {% if is_used %}
+        <div class="alert alert-danger" role="alert">
+            {% trans "Невозможно удалить статус, потому что он используется в одной или нескольких задачах" %}
+        </div>
+        <a href="{% url 'statuses:list' %}" class="btn btn-secondary">{% trans "Вернуться к списку статусов" %}</a>
+        {% else %}
+        <p>{% trans "Вы действительно хотите удалить статус" %} <strong>{{ object.name }}</strong>?</p>
 
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">{% trans "Да, удалить" %}</button>
-        <a href="{% url 'statuses:list' %}" class="btn btn-secondary">{% trans "Отменить" %}</a>
-    </form>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">{% trans "Да, удалить" %}</button>
+            <a href="{% url 'statuses:list' %}" class="btn btn-secondary">{% trans "Отмена" %}</a>
+        </form>
+        {% endif %}
+    {% endif %}
 </div>
 {% endblock %}

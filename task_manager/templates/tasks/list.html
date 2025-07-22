@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n django_bootstrap5 %}
+{% load i18n %}
 
 {% block content %}
 <div class="container">
@@ -8,56 +8,57 @@
     <a href="{% url 'tasks:create' %}" class="btn btn-primary mb-3">
         {% trans "Создать задачу" %}
     </a>
-    <form method="get">
-        {% bootstrap_form filter.form %}
-        {% for key, value in request.GET.items %}
-            {% if key != 'self_tasks' %}
-                <input type="hidden" name="{{ key }}" value="{{ value }}">
-            {% endif %}
-        {% endfor %}
 
-        <button type="submit" class="btn btn-primary">
-            {% trans "Показать" %}
-        </button>
+    <!-- Форма фильтрации -->
+    <form method="get" class="mb-4">
+        {{ filter.form.as_p }}
+        <button type="submit" class="btn btn-primary">{% trans "Показать" %}</button>
     </form>
-    {% if tasks %}
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>{% trans "Имя" %}</th>
-                    <th>{% trans "Статус" %}</th>
-                    <th>{% trans "Автор" %}</th>
-                    <th>{% trans "Исполнитель" %}</th>
-                    <th>{% trans "Создана" %}</th>
-                    <th>{% trans "Действия" %}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for task in tasks %}
-                <tr>
-                    <td>{{ task.id }}</td>
-                    <td><a href="{% url 'tasks:detail' task.id %}">{{ task.name }}</a></td>
-                    <td>{{ task.status.name }}</td>
-                    <td>{{ task.author.username }}</td>
-                    <td>{{ task.executor.username|default:"-" }}</td>
-                    <td>{{ task.created_at|date:"d.m.Y H:i" }}</td>
-                    <td>
-                        <a href="{% url 'tasks:update' task.id %}" class="btn btn-sm btn-primary">
-                            {% trans "Обновить" %}
-                        </a>
-                        <a href="{% url 'tasks:delete' task.id %}" class="btn btn-sm btn-danger">
-                            {% trans "Удалить" %}
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <div class="alert alert-info" role="alert">
-            {% trans "Нет задач, удовлетворяющих условиям!" %}
-        </div>
-    {% endif %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>{% trans "Имя" %}</th>
+                <th>{% trans "Статус" %}</th>
+                <th>{% trans "Автор" %}</th>
+                <th>{% trans "Исполнитель" %}</th>
+                <th>{% trans "Дата создания" %}</th>
+                <th>{% trans "Метки" %}</th>  <!-- Добавлен столбец для меток -->
+                <th>{% trans "Действия" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in filter.qs %}
+            <tr>
+                <td>{{ task.id }}</td>
+                <td><a href="{% url 'tasks:detail' task.id %}">{{ task.name }}</a></td>
+                <td>{{ task.status.name }}</td>
+                <td>{{ task.author.username }}</td>
+                <td>{{ task.executor.username|default:"" }}</td>
+                <td>{{ task.created_at|date:"d.m.Y H:i" }}</td>
+                <td>
+                    {% for label in task.labels.all %}
+                        <span class="badge bg-secondary">{{ label.name }}</span>
+                    {% empty %}
+                        {% trans "Нет меток" %}
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{% url 'tasks:update' task.id %}" class="btn btn-sm btn-primary">
+                        {% trans "Обновить" %}
+                    </a>
+                    <a href="{% url 'tasks:delete' task.id %}" class="btn btn-sm btn-danger">
+                        {% trans "Удалить" %}
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">{% trans "Нет задач" %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
