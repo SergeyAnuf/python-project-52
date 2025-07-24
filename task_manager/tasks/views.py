@@ -56,11 +56,11 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = TaskForm
     template_name = 'tasks/form.html'
     success_url = reverse_lazy('tasks:list')
-    success_message = _('Задача успешно обновлена')
+    success_message = _('Задача успешно изменена')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _('Обновить задачу')
+        context['title'] = _('Изменить задачу')
         return context
 
     def get_form_kwargs(self):
