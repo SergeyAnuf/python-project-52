@@ -6,6 +6,11 @@
 <form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
-    <button type="submit" class="btn btn-primary">{% trans "Зарегистрировать" %}</button>
+
+    {% if object %}
+        <button type="submit" class="btn btn-primary">{% trans "Изменить" %}</button>
+    {% else %}
+        <button type="submit" class="btn btn-primary">{% trans "Зарегистрировать" %}</button>
+    {% endif %}
 </form>
 {% endblock %}
