@@ -13,9 +13,7 @@
                     <form method="post">
                         {% csrf_token %}
                         {% bootstrap_form form %}
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">{% trans "Вход" %}</button>
-                        </div>
+                        <button type="submit" class="btn btn-primary">{% trans "Войти" %}</button>
                     </form>
                 </div>
             </div>
