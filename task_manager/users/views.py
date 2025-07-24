@@ -76,7 +76,7 @@ class CustomLoginView(LoginView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        messages.success(self.request, _('Вы вошли!'))
+        messages.success(self.request, _('Вы залогинены'))
         return response
 
     def get_success_url(self):
@@ -85,5 +85,5 @@ class CustomLoginView(LoginView):
 
 def custom_logout(request):
     logout(request)
-    messages.success(request, _('Вы вышли!'))
+    messages.success(request, _('Вы разлогинены'))
     return redirect('home')
