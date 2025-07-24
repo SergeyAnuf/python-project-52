@@ -2,7 +2,7 @@
 {% load i18n django_bootstrap5 %}
 
 {% block content %}
-<h1>{% if object %}{% trans "Щбновить пользователя" %}{% else %}{% trans "Создать пользователя" %}{% endif %}</h1>
+<h1>{% if object %}{% trans "Обновить пользователя" %}{% else %}{% trans "Регистрация" %}{% endif %}</h1>
 <form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
