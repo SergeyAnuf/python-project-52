@@ -23,10 +23,10 @@ class TaskForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'rows': 4}),
         }
         labels = {
-            'name': _('Name'),
-            'description': _('Description'),
-            'status': _('Status'),
-            'executor': _('Executor'),
+            'name': _('Имя'),
+            'description': _('Описание'),
+            'status': _('Статус'),
+            'executor': _('Исполнитель'),
         }
 
     def __init__(self, *args, **kwargs):
