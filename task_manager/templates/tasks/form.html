@@ -27,7 +27,11 @@
         </div>
 
         <button type="submit" class="btn btn-primary">
-            {% trans "Создать" %}
+            {% if object %}
+                {% trans "Изменить" %}
+            {% else %}
+                {% trans "Создать" %}
+            {% endif %}
         </button>
     </form>
 </div>
