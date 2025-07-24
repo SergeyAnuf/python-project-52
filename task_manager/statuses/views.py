@@ -36,7 +36,7 @@ class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = StatusForm
     template_name = 'statuses/form.html'
     success_url = reverse_lazy('statuses:list')
-    success_message = _('Статус успешно обновлен')
+    success_message = _('Статус успешно изменен')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

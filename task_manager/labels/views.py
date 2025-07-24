@@ -31,7 +31,7 @@ class LabelUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = LabelForm
     template_name = 'labels/form.html'
     success_url = reverse_lazy('labels:list')
-    success_message = _('Метка успешно обновлена')
+    success_message = _('Метка успешно изменена')
 
 
 class LabelDeleteView(LoginRequiredMixin, DeleteView):
