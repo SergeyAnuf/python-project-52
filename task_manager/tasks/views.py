@@ -42,6 +42,10 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         context = super().get_context_data(**kwargs)
         User = get_user_model()
 
+        if not User.objects.exists():
+            messages.error(self.request, _('Нет доступных исполнителей'))
+            return redirect('tasks:list')
+
         # Предзагрузка данных для полей
         context['form'].fields['status'].queryset = Status.objects.all()
         context['form'].fields['executor'].queryset = User.objects.all()

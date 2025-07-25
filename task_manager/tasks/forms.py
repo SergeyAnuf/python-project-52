@@ -16,6 +16,13 @@ class TaskForm(forms.ModelForm):
         label=_('Labels')
     )
 
+    def clean_executor(self):
+        executor = self.cleaned_data['executor']
+        if not executor:
+            raise forms.ValidationError(_('Выберите исполнителя'))
+        return executor
+
+
     class Meta:
         model = Task
         fields = ['name', 'description', 'status', 'executor', 'labels']
