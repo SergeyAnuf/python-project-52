@@ -4,42 +4,44 @@
 {% block content %}
 <div class="container">
     <h1 class="my-4">
-        {% if object %}{% trans "Update task" %}{% else %}{% trans "Create task" %}{% endif %}
+        {% if object %}{% trans "Изменить задачу" %}{% else %}{% trans "Создать задачу" %}{% endif %}
     </h1>
 
     <form method="post">
         {% csrf_token %}
 
-        {# Используем стандартные bootstrap поля #}
-        {% bootstrap_form form %}
+        {# Убрали дублирование полей #}
+        {% bootstrap_field form.name show_label=True %}
+        {% bootstrap_field form.description show_label=True %}
+        {% bootstrap_field form.status show_label=True %}
+        {% bootstrap_field form.executor show_label=True %}
 
-        {# Отдельно выводим метки с правильной структурой #}
         <div class="mb-3">
-            <label class="form-label">{% trans "Labels" %}</label>
+            <label class="form-label">{% trans "Метки" %}</label>
             <div class="border p-3 rounded">
                 {% for checkbox in form.labels %}
-                    <div class="form-check">
-                        {{ checkbox.tag }}
-                        <label class="form-check-label" for="{{ checkbox.id_for_label }}">
-                            {{ checkbox.choice_label }}
-                        </label>
-                    </div>
+                <div class="form-check">
+                    {{ checkbox.tag }}
+                    <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                        {{ checkbox.choice_label }}
+                    </label>
+                </div>
                 {% endfor %}
             </div>
         </div>
 
         {% if object %}
             <div class="mb-3">
-                <label class="form-label">{% trans "Author" %}</label>
+                <label class="form-label">{% trans "Автор" %}</label>
                 <p>{{ object.author.get_full_name }}</p>
             </div>
         {% endif %}
 
         <button type="submit" class="btn btn-primary">
             {% if object %}
-                {% trans "Update" %}
+                {% trans "Изменить" %}
             {% else %}
-                {% trans "Create" %}
+                {% trans "Создать" %}
             {% endif %}
         </button>
     </form>

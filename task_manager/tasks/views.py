@@ -1,5 +1,5 @@
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
+from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -9,6 +9,10 @@ from .models import Task
 from .forms import TaskForm
 from django_filters.views import FilterView
 from .filters import TaskFilter
+from task_manager.statuses.models import Status  # Импорт модели статусов
+from task_manager.labels.models import Label  # Импорт модели меток
+from django.contrib.auth import get_user_model  # Импорт функции получения модели пользователя
+
 
 class TaskListView(LoginRequiredMixin, FilterView):
     model = Task
@@ -28,7 +32,7 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = TaskForm
     template_name = 'tasks/form.html'
     success_url = reverse_lazy('tasks:list')
-    success_message = _('Task successfully created')
+    success_message = _('Задача успешно создана')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -36,11 +40,14 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        User = get_user_model()
+
         # Предзагрузка данных для полей
         context['form'].fields['status'].queryset = Status.objects.all()
-        context['form'].fields['executor'].queryset = get_user_model().objects.all()
+        context['form'].fields['executor'].queryset = User.objects.all()
         context['form'].fields['labels'].queryset = Label.objects.all()
         return context
+
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
@@ -52,7 +59,7 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Task
     form_class = TaskForm
     template_name = 'tasks/form.html'
-    success_url = reverse_lazy('tasks:list')  # Убедитесь, что 'tasks:list' правильное имя URL
+    success_url = reverse_lazy('tasks:list')
     success_message = _('Задача успешно изменена')
 
     def get_context_data(self, **kwargs):
@@ -60,13 +67,11 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         context['title'] = _('Изменить задачу')
         return context
 
-    # УДАЛИТЕ ВСЕ МЕТОДЫ get_form_kwargs - они больше не нужны
-
 
 class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
     template_name = 'tasks/delete.html'
-    success_url = reverse_lazy('tasks:list')  # Убедитесь, что 'tasks:list' правильное имя URL
+    success_url = reverse_lazy('tasks:list')
     success_message = _('Задача успешно удалена')
     error_message = _('Задача не может быть удалена')
 
