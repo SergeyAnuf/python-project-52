@@ -38,3 +38,8 @@ class TaskForm(forms.ModelForm):
             'status': _('Статус'),
             'executor': _('Исполнитель'),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Устанавливаем начальное значение для executor
+        self.fields['executor'].initial = self.instance.executor_id or None

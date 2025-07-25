@@ -47,3 +47,7 @@ class Task(models.Model):
     class Meta:
         verbose_name = _('Task')
         verbose_name_plural = _('Tasks')
+
+    @classmethod
+    def get_available_executors(cls):
+        return get_user_model().objects.all()

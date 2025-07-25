@@ -42,6 +42,8 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         context = super().get_context_data(**kwargs)
         User = get_user_model()
 
+        context['users'] = User.objects.all()
+
         if not User.objects.exists():
             messages.error(self.request, _('Нет доступных исполнителей'))
             return redirect('tasks:list')

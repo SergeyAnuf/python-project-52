@@ -1,5 +1,12 @@
 from django.urls import path
 from . import views
+from django.contrib.auth import get_user_model
+
+def check_users_exist(request):
+    if not get_user_model().objects.exists():
+        return redirect('tasks:list')
+    return None
+
 
 app_name = 'tasks'
 
