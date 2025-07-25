@@ -9,34 +9,22 @@ User = get_user_model()
 
 
 class TaskForm(forms.ModelForm):
-    labels = forms.ModelMultipleChoiceField(
-        queryset=Label.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=False,
-        label=_('Labels')
-    )
-
-    # Явно определяем поле executor
     executor = forms.ModelChoiceField(
         queryset=get_user_model().objects.all(),
         required=False,
-        label=_('Исполнитель'),
+        label=_('Executor'),  # Используем стандартный перевод
         widget=forms.Select(attrs={
             'class': 'form-select',
-            'id': 'id_executor'  # Явно задаем ID
+            'id': 'id_executor'
         })
     )
 
     class Meta:
         model = Task
         fields = ['name', 'description', 'status', 'executor', 'labels']
-        widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
-            'status': forms.Select(attrs={'class': 'form-select'}),
-        }
         labels = {
-            'name': _('Имя'),
-            'description': _('Описание'),
-            'status': _('Статус'),
+            'name': _('Name'),
+            'description': _('Description'),
+            'status': _('Status'),
+            'executor': _('Executor'),  # Стандартный перевод
         }

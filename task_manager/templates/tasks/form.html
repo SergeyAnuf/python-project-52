@@ -4,40 +4,42 @@
 {% block content %}
 <div class="container">
     <h1 class="my-4">
-        {% if object %}{% trans "Изменить задачу" %}{% else %}{% trans "Создать задачу" %}{% endif %}
+        {% if object %}{% trans "Update task" %}{% else %}{% trans "Create task" %}{% endif %}
     </h1>
 
     <form method="post">
         {% csrf_token %}
 
-        {% bootstrap_field form.name %}
-        {% bootstrap_field form.description %}
-        {% bootstrap_field form.status %}
-        {% bootstrap_field form.executor %}
+        {# Используем стандартные bootstrap поля #}
+        {% bootstrap_form form %}
 
+        {# Отдельно выводим метки с правильной структурой #}
         <div class="mb-3">
-            <label class="form-label">{% trans "Метки" %}</label>
+            <label class="form-label">{% trans "Labels" %}</label>
             <div class="border p-3 rounded">
                 {% for checkbox in form.labels %}
-                <div class="form-check">
-                    {{ checkbox }}
-                </div>
+                    <div class="form-check">
+                        {{ checkbox.tag }}
+                        <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                            {{ checkbox.choice_label }}
+                        </label>
+                    </div>
                 {% endfor %}
             </div>
         </div>
 
         {% if object %}
             <div class="mb-3">
-                <label class="form-label">{% trans "Автор" %}</label>
+                <label class="form-label">{% trans "Author" %}</label>
                 <p>{{ object.author.get_full_name }}</p>
             </div>
         {% endif %}
 
         <button type="submit" class="btn btn-primary">
             {% if object %}
-                {% trans "Изменить" %}
+                {% trans "Update" %}
             {% else %}
-                {% trans "Создать" %}
+                {% trans "Create" %}
             {% endif %}
         </button>
     </form>
