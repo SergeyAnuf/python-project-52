@@ -40,18 +40,7 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        User = get_user_model()
-
-        context['users'] = User.objects.all()
-
-        if not User.objects.exists():
-            messages.error(self.request, _('Нет доступных исполнителей'))
-            return redirect('tasks:list')
-
-        # Предзагрузка данных для полей
-        context['form'].fields['status'].queryset = Status.objects.all()
-        context['form'].fields['executor'].queryset = User.objects.all()
-        context['form'].fields['labels'].queryset = Label.objects.all()
+        context['title'] = _('Создать задачу')  # Добавьте заголовок для контекста
         return context
 
 
