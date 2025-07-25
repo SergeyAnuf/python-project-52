@@ -14,6 +14,12 @@ class TaskForm(forms.ModelForm):
         required=False,
         label=_('Labels')
     )
+    executor = forms.ModelChoiceField(
+        queryset=get_user_model().objects.all(),
+        required=False,
+        label=_('Executor'),
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
 
     class Meta:
         model = Task
