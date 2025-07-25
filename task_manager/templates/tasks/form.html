@@ -9,17 +9,11 @@
 
     <form method="post">
         {% csrf_token %}
+
         {% bootstrap_field form.name %}
         {% bootstrap_field form.description %}
         {% bootstrap_field form.status %}
         {% bootstrap_field form.executor %}
-
-        {% if object %}
-            <div class="mb-3">
-                <label class="form-label">{% trans "Автор" %}</label>
-                <p>{{ object.author }}</p>
-            </div>
-        {% endif %}
 
         <div class="mb-3">
             <label class="form-label">{% trans "Метки" %}</label>
@@ -31,6 +25,13 @@
                 {% endfor %}
             </div>
         </div>
+
+        {% if object %}
+            <div class="mb-3">
+                <label class="form-label">{% trans "Автор" %}</label>
+                <p>{{ object.author.get_full_name }}</p>
+            </div>
+        {% endif %}
 
         <button type="submit" class="btn btn-primary">
             {% if object %}

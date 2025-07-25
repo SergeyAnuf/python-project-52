@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
+
 class TaskForm(forms.ModelForm):
     labels = forms.ModelMultipleChoiceField(
         queryset=Label.objects.all(),
@@ -14,23 +15,28 @@ class TaskForm(forms.ModelForm):
         required=False,
         label=_('Labels')
     )
+
+    # Явно определяем поле executor
     executor = forms.ModelChoiceField(
         queryset=get_user_model().objects.all(),
         required=False,
-        label=_('Executor'),
-        widget=forms.Select(attrs={'class': 'form-select'})
+        label=_('Исполнитель'),
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+            'id': 'id_executor'  # Явно задаем ID
+        })
     )
 
     class Meta:
         model = Task
         fields = ['name', 'description', 'status', 'executor', 'labels']
         widgets = {
-            'description': forms.Textarea(attrs={'rows': 4}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'status': forms.Select(attrs={'class': 'form-select'}),
         }
         labels = {
             'name': _('Имя'),
             'description': _('Описание'),
             'status': _('Статус'),
-            'executor': _('Исполнитель'),
         }
-

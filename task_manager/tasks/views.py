@@ -27,15 +27,17 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Task
     form_class = TaskForm
     template_name = 'tasks/form.html'
-    success_url = reverse_lazy('tasks:list')  # Убедитесь, что 'tasks:list' правильное имя URL
+    success_url = reverse_lazy('tasks:list')
     success_message = _('Задача успешно создана')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-    # УДАЛИТЕ ВСЕ МЕТОДЫ get_form_kwargs - они больше не нужны
-
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        # Передаем текущего пользователя в форму, если нужно
+        return kwargs
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
