@@ -59,12 +59,6 @@ ROLLBAR = {
 
 # Initialize Rollbar
 rollbar.init(**ROLLBAR)
-if ROLLBAR_ACCESS_TOKEN:
-    rollbar.init(**ROLLBAR)
-
-# Уберите дублирующую инициализацию
-if not DEBUG and ROLLBAR_ACCESS_TOKEN:
-    rollbar.init(**ROLLBAR)
 
 ALLOWED_HOSTS = [
     'python-project-52-ru09.onrender.com',
@@ -91,6 +85,7 @@ INSTALLED_APPS = [
 ]
 
 
+# Database configuration
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -98,9 +93,11 @@ DATABASES = {
     }
 }
 
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES["default"].update(db_from_env)
-
+if os.getenv('DATABASE_URL'):
+    DATABASES['default'] = dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=600
+    )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -195,9 +192,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+STATIC_ROOT = BASE_DIR /'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
@@ -208,14 +207,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
-
-# В самый конец settings.py
-print("\n" + "="*50)
-print("CURRENT DATABASE CONFIGURATION:")
-print(f"ENGINE: {DATABASES['default']['ENGINE']}")
-print(f"NAME: {DATABASES['default']['NAME']}")
-print(f"USER: {DATABASES['default']['USER']}")
-print(f"HOST: {DATABASES['default']['HOST']}")
-print(f"PORT: {DATABASES['default']['PORT']}")
-print(f"SSL: {DATABASES['default'].get('OPTIONS', {}).get('sslmode', 'not set')}")
-print("="*50 + "\n")
