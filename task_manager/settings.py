@@ -97,7 +97,14 @@ if os.getenv('DATABASE_URL'):
     DATABASES['default'] = dj_database_url.config(
         default=os.getenv('DATABASE_URL'),
         conn_max_age=600
+        engine='django.db.backends.postgresql',
+        ssl_require=True
     )
+    DATABASES['default'] = db_config
+
+    if DATABASES['default']['ENGINE'] == 'django.db.backends.postgresql':
+        DATABASES['default']['OPTIONS'] = DATABASES['default'].get('OPTIONS', {})
+        DATABASES['default']['OPTIONS']['sslmode'] = 'require'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
