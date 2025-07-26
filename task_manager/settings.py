@@ -86,6 +86,8 @@ INSTALLED_APPS = [
 
 
 # Database configuration
+# Database configuration
+# Database configuration
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -94,16 +96,19 @@ DATABASES = {
 }
 
 if os.getenv('DATABASE_URL'):
+    # Обновляем конфигурацию для PostgreSQL
     DATABASES['default'] = dj_database_url.config(
         default=os.getenv('DATABASE_URL'),
-        conn_max_age=600
+        conn_max_age=600,
         engine='django.db.backends.postgresql',
         ssl_require=True
     )
-    DATABASES['default'] = db_config
 
+    # Для PostgreSQL явно указываем sslmode
     if DATABASES['default']['ENGINE'] == 'django.db.backends.postgresql':
-        DATABASES['default']['OPTIONS'] = DATABASES['default'].get('OPTIONS', {})
+        # Создаем OPTIONS если его нет
+        if 'OPTIONS' not in DATABASES['default']:
+            DATABASES['default']['OPTIONS'] = {}
         DATABASES['default']['OPTIONS']['sslmode'] = 'require'
 
 MIDDLEWARE = [
