@@ -98,7 +98,8 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT'),
         'OPTIONS': {
             'sslmode': 'disable',
-            'ssl': False,
+            'ssl': False,  # Явное отключение SSL
+            'connect_timeout': 5,  # Таймаут подключения
         },
     }
 }
