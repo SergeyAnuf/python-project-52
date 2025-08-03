@@ -13,7 +13,7 @@ class TaskForm(forms.ModelForm):
         queryset=Label.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=False,
-        label=_('Labels')
+        label=_('Метки')  # Исправьте метку на русский язык
     )
 
     class Meta:
@@ -25,7 +25,7 @@ class TaskForm(forms.ModelForm):
             'status': forms.Select(attrs={'class': 'form-select'}),
             'executor': forms.Select(attrs={
                 'class': 'form-select',
-                'id': 'id_executor'  # Явное указание ID
+                'id': 'id_executor'
             }),
         }
         labels = {
@@ -34,3 +34,9 @@ class TaskForm(forms.ModelForm):
             'status': _('Статус'),
             'executor': _('Исполнитель'),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['executor'].queryset = get_user_model().objects.all()
+        self.fields['status'].queryset = Status.objects.all()
+        self.fields['labels'].queryset = Label.objects.all()
