@@ -13,7 +13,7 @@ class TaskForm(forms.ModelForm):
         queryset=Label.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=False,
-        label=_('Метки')  # Исправьте метку на русский язык
+        label=_('Метки')
     )
 
     class Meta:
@@ -40,3 +40,6 @@ class TaskForm(forms.ModelForm):
         self.fields['executor'].queryset = get_user_model().objects.all()
         self.fields['status'].queryset = Status.objects.all()
         self.fields['labels'].queryset = Label.objects.all()
+
+        # Переопределяем отображение пользователей
+        self.fields['executor'].label_from_instance = lambda obj: obj.username

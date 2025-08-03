@@ -13,19 +13,22 @@
         {% bootstrap_field form.name show_label=True %}
         {% bootstrap_field form.description show_label=True %}
         {% bootstrap_field form.status show_label=True %}
-        {% bootstrap_field form.executor show_label=True %}
 
-        <!-- Поле меток -->
+        <!-- Добавляем id для поля исполнителя -->
+        <div id="executor-field">
+            {% bootstrap_field form.executor show_label=True %}
+        </div>
+
         <div class="mb-3">
             <label class="form-label">{% trans "Метки" %}</label>
             <div class="border p-3 rounded">
                 {% for checkbox in form.labels %}
-                    <div class="form-check">
-                        {{ checkbox.tag }}
-                        <label class="form-check-label" for="{{ checkbox.id_for_label }}">
-                            {{ checkbox.choice_label }}
-                        </label>
-                    </div>
+                <div class="form-check">
+                    {{ checkbox.tag }}
+                    <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                        {{ checkbox.choice_label }}
+                    </label>
+                </div>
                 {% endfor %}
             </div>
         </div>
@@ -33,11 +36,10 @@
         {% if object %}
             <div class="mb-3">
                 <label class="form-label">{% trans "Автор" %}</label>
-                <p>{{ object.author.get_full_name }}</p>
+                <p>{{ object.author.username }}</p>
             </div>
         {% endif %}
 
-        <!-- Кнопка создания/обновления -->
         <button type="submit" class="btn btn-primary">
             {% if object %}
                 {% trans "Изменить" %}
