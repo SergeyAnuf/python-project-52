@@ -16,13 +16,6 @@ class TaskForm(forms.ModelForm):
         label=_('Labels')
     )
 
-    def clean_executor(self):
-        executor = self.cleaned_data['executor']
-        if not executor:
-            raise forms.ValidationError(_('Выберите исполнителя'))
-        return executor
-
-
     class Meta:
         model = Task
         fields = ['name', 'description', 'status', 'executor', 'labels']
@@ -30,7 +23,10 @@ class TaskForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
             'status': forms.Select(attrs={'class': 'form-select'}),
-            'executor': forms.Select(attrs={'class': 'form-select'}),
+            'executor': forms.Select(attrs={
+                'class': 'form-select',
+                'id': 'id_executor'  # Явное указание ID
+            }),
         }
         labels = {
             'name': _('Имя'),
@@ -38,10 +34,3 @@ class TaskForm(forms.ModelForm):
             'status': _('Статус'),
             'executor': _('Исполнитель'),
         }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['executor'].queryset = User.objects.all()  # Явно указываем queryset
-        self.fields['status'].queryset = Status.objects.all()
-        self.fields['labels'].queryset = Label.objects.all()
-        self.fields['executor'].initial = self.instance.executor_id or None
