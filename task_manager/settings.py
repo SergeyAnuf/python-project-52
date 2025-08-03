@@ -85,39 +85,15 @@ INSTALLED_APPS = [
 ]
 
 
-# Database configuration
-# Database configuration
-# Database configuration
-DATABASES = {
+#DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'your_db_name'),  # Значение по умолчанию для локальной разработки
-        'USER': os.getenv('DB_USER', 'your_db_user'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'your_db_password'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '5432'),
-        'OPTIONS': {
-            'sslmode': 'disable',  # Явное отключение SSL
-            'ssl': False,           # Дополнительное отключение SSL
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
-if os.getenv('DATABASE_URL'):
-    # Обновляем конфигурацию для PostgreSQL
-    DATABASES['default'] = dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
-        conn_max_age=600,
-        engine='django.db.backends.postgresql',
-        ssl_require=True
-    )
-
-    # Для PostgreSQL явно указываем sslmode
-    if DATABASES['default']['ENGINE'] == 'django.db.backends.postgresql':
-        # Создаем OPTIONS если его нет
-        if 'OPTIONS' not in DATABASES['default']:
-            DATABASES['default']['OPTIONS'] = {}
-        DATABASES['default']['OPTIONS']['sslmode'] = 'require'
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES["default"].update(db_from_env)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
