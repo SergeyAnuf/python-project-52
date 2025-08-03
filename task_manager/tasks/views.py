@@ -29,7 +29,7 @@ class TaskListView(LoginRequiredMixin, FilterView):
 
 class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Task
-    form_class = TaskForm
+    form_class = TaskForm  # Должно быть TaskForm
     template_name = 'tasks/form.html'
     success_url = reverse_lazy('tasks:list')
     success_message = _('Задача успешно создана')
@@ -40,7 +40,7 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _('Создать задачу')  # Добавьте заголовок для контекста
+        context['title'] = _('Создать задачу')
         return context
 
 
