@@ -4,20 +4,16 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Users(AbstractUser):
-    # Убираем email как обязательное поле
-    email = models.EmailField(_("email address"), blank=True, null=True)
-
-    # Делаем имя и фамилию обязательными
+    # Эти поля уже есть в AbstractUser, но мы делаем их обязательными
     first_name = models.CharField(_("first name"), max_length=150, blank=False)
     last_name = models.CharField(_("last name"), max_length=150, blank=False)
 
     def get_full_name(self):
         """Возвращает полное имя пользователя"""
-        full_name = f"{self.first_name} {self.last_name}"
-        return full_name.strip()
+        return f"{self.first_name} {self.last_name}".strip()
 
     def __str__(self):
-        """Для отображения в выпадающих списках используем полное имя"""
+        """Для отображения в выпадающих списках"""
         return self.get_full_name() or self.username
 
     class Meta:
@@ -25,7 +21,6 @@ class Users(AbstractUser):
         verbose_name = _("user")
         verbose_name_plural = _("users")
 
-    # Остальное без изменений
     groups = models.ManyToManyField(
         'auth.Group',
         verbose_name=_('groups'),

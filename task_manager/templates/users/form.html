@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container">
     <h1 class="my-4">
-        {% if object %}{% trans "Изменить пользователя" %}{% else %}{% trans "Создать пользователя" %}{% endif %}
+        {{ title }}
     </h1>
 
     <form method="post">
@@ -14,13 +14,12 @@
         {% bootstrap_field form.first_name show_label=True %}
         {% bootstrap_field form.last_name show_label=True %}
 
-        {% if not object %}
-            {% comment %} Поля пароля только при создании {% endcomment %}
+        {% if not object %} {# Поля пароля только при создании #}
             {% bootstrap_field form.password1 show_label=True %}
             {% bootstrap_field form.password2 show_label=True %}
         {% endif %}
 
-        <button type="submit" class="btn btn-primary" id="submit-button">
+        <button type="submit" class="btn btn-primary">
             {% if object %}
                 {% trans "Изменить" %}
             {% else %}

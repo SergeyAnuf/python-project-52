@@ -1,3 +1,4 @@
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -6,9 +7,9 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.utils.translation import gettext as _
-from .forms import UserForm, UserUpdateForm
+from .forms import UserForm, UserUpdateForm  # Импортируем обе формы
 from .models import Users
-from django.contrib.messages.views import SuccessMessageMixin
+from task_manager.tasks.models import Task
 
 class UserListView(ListView):
     model = Users
@@ -17,18 +18,24 @@ class UserListView(ListView):
 
 class UserCreateView(CreateView):
     model = Users
-    form_class = UserForm
+    form_class = UserForm  # Используем форму создания
     template_name = 'users/form.html'
     success_url = reverse_lazy('login')
+    success_message = _('Пользователь успешно зарегистрирован!')
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        messages.success(self.request, _('Пользователь успешно зарегистрирован!'))
+        messages.success(self.request, self.success_message)
         return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = _('Регистрация')
+        return context
 
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Users
-    form_class = UserUpdateForm  # Используем новую форму без паролей
+    form_class = UserUpdateForm  # Используем форму обновления
     template_name = 'users/form.html'
     success_url = reverse_lazy('users:users')
     success_message = _('Пользователь успешно изменен!')
@@ -39,10 +46,16 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
             return redirect('users:users')
         return super().dispatch(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = _('Изменить пользователя')
+        return context
+
 class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = Users
     template_name = 'users/delete.html'
     success_url = reverse_lazy('users:users')
+    success_message = _('Пользователь успешно удален!')
     error_message = _('Невозможно удалить пользователя, потому что он связан с задачей')
 
     def dispatch(self, request, *args, **kwargs):
@@ -56,7 +69,7 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
         if Task.objects.filter(author=user).exists() or Task.objects.filter(executor=user).exists():
             messages.error(request, self.error_message)
             return redirect(self.success_url)
-        messages.success(request, _('Пользователь успешно удален!'))
+        messages.success(request, self.success_message)
         return self.delete(request, *args, **kwargs)
 
 class CustomLoginView(LoginView):
