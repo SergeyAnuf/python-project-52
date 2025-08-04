@@ -13,7 +13,6 @@ from task_manager.statuses.models import Status  # Импорт модели с�
 from task_manager.labels.models import Label  # Импорт модели меток
 from django.contrib.auth import get_user_model  # Импорт функции получения модели пользователя
 
-
 class TaskListView(LoginRequiredMixin, FilterView):
     model = Task
     template_name = 'tasks/list.html'
@@ -23,7 +22,7 @@ class TaskListView(LoginRequiredMixin, FilterView):
 
     def get_filterset_kwargs(self, filterset_class):
         kwargs = super().get_filterset_kwargs(filterset_class)
-        kwargs['request'] = self.request
+        kwargs['request'] = self.request  # Передаем запрос в фильтр
         return kwargs
 
 

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n django_bootstrap5 %}
 
 {% block content %}
 <div class="container">
@@ -11,7 +11,10 @@
 
     <!-- Форма фильтрации -->
     <form method="get" class="mb-4">
-        {{ filter.form.as_p }}
+        {% bootstrap_field filter.form.status show_label=True %}
+        {% bootstrap_field filter.form.executor show_label=True %}
+        {% bootstrap_field filter.form.labels show_label=True %}
+        {% bootstrap_field filter.form.self_tasks show_label=True %}
         <button type="submit" class="btn btn-primary">{% trans "Показать" %}</button>
     </form>
 
@@ -34,10 +37,10 @@
                 <td>{{ task.id }}</td>
                 <td><a href="{% url 'tasks:detail' task.id %}">{{ task.name }}</a></td>
                 <td>{{ task.status.name }}</td>
-                <td>{{ task.author.get_full_name }}</td>  <!-- Исправлено -->
+                <td>{{ task.author.get_full_name }}</td>
                 <td>
                     {% if task.executor %}
-                        {{ task.executor.get_full_name }}  <!-- Исправлено -->
+                        {{ task.executor.get_full_name }}
                     {% endif %}
                 </td>
                 <td>{{ task.created_at|date:"d.m.Y H:i" }}</td>
