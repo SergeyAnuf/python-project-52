@@ -6,8 +6,9 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.utils.translation import gettext as _
-from .forms import UserForm
+from .forms import UserForm, UserUpdateForm
 from .models import Users
+from django.contrib.messages.views import SuccessMessageMixin
 
 class UserListView(ListView):
     model = Users
@@ -25,22 +26,18 @@ class UserCreateView(CreateView):
         messages.success(self.request, _('Пользователь успешно зарегистрирован!'))
         return response
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
+class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Users
-    form_class = UserForm
+    form_class = UserUpdateForm  # Используем новую форму без паролей
     template_name = 'users/form.html'
     success_url = reverse_lazy('users:users')
+    success_message = _('Пользователь успешно изменен!')
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.pk != self.get_object().pk:
             messages.error(request, _('У вас нет прав для изменения другого пользователя.'))
             return redirect('users:users')
         return super().dispatch(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        messages.success(self.request, _('Пользователь успешно изменен!'))
-        return response
 
 class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = Users

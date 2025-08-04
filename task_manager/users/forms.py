@@ -31,3 +31,26 @@ class UserForm(UserCreationForm):
         # Делаем имя и фамилию обязательными
         self.fields['first_name'].required = True
         self.fields['last_name'].required = True
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Users
+        fields = ['username', 'first_name', 'last_name']
+        labels = {
+            'username': _('Имя пользователя'),
+            'first_name': _('Имя'),
+            'last_name': _('Фамилия'),
+        }
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Убираем поля пароля
+        if 'password1' in self.fields:
+            del self.fields['password1']
+        if 'password2' in self.fields:
+            del self.fields['password2']
