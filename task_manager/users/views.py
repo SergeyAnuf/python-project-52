@@ -1,28 +1,21 @@
-from django.shortcuts import render
-
-# Create your views here.
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.utils.translation import gettext as _
 from .forms import UserForm
-from django.utils.translation import gettext_lazy as _
-from task_manager.tasks.models import Task
-
+from .models import Users
 
 class UserListView(ListView):
-    model = User
+    model = Users
     template_name = 'users/list.html'
     context_object_name = 'users'
 
-
 class UserCreateView(CreateView):
-    model = User
+    model = Users
     form_class = UserForm
     template_name = 'users/form.html'
     success_url = reverse_lazy('login')
@@ -32,9 +25,8 @@ class UserCreateView(CreateView):
         messages.success(self.request, _('Пользователь успешно зарегистрирован!'))
         return response
 
-
 class UserUpdateView(LoginRequiredMixin, UpdateView):
-    model = User
+    model = Users
     form_class = UserForm
     template_name = 'users/form.html'
     success_url = reverse_lazy('users:users')
@@ -51,7 +43,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         return response
 
 class UserDeleteView(LoginRequiredMixin, DeleteView):
-    model = User
+    model = Users
     template_name = 'users/delete.html'
     success_url = reverse_lazy('users:users')
     error_message = _('Невозможно удалить пользователя, потому что он связан с задачей')
@@ -70,7 +62,6 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
         messages.success(request, _('Пользователь успешно удален!'))
         return self.delete(request, *args, **kwargs)
 
-
 class CustomLoginView(LoginView):
     template_name = 'users/login.html'
 
@@ -81,7 +72,6 @@ class CustomLoginView(LoginView):
 
     def get_success_url(self):
         return reverse_lazy('home')
-
 
 def custom_logout(request):
     logout(request)

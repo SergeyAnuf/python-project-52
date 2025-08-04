@@ -137,16 +137,10 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'OPTIONS': {
+            'min_length': 3,
+        }
     },
 ]
 
@@ -172,7 +166,7 @@ LOGGING = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
-AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'users.Users'
 
 LANGUAGE_CODE = 'ru-ru'
 
