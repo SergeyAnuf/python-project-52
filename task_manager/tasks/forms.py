@@ -7,11 +7,10 @@ from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
 
-
 class TaskForm(forms.ModelForm):
     labels = forms.ModelMultipleChoiceField(
         queryset=Label.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.SelectMultiple(attrs={'class': 'form-select'}),  # Изменили на SelectMultiple
         required=False,
         label=_('Метки')
     )
@@ -37,9 +36,6 @@ class TaskForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['executor'].queryset = User.objects.all()
+        self.fields['executor'].queryset = get_user_model().objects.all()
         self.fields['status'].queryset = Status.objects.all()
         self.fields['labels'].queryset = Label.objects.all()
-
-        # Убедимся, что исполнители отображаются как полные имена
-        self.fields['executor'].label_from_instance = lambda obj: str(obj)
