@@ -35,7 +35,7 @@ class UserCreateView(CreateView):
 
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Users
-    form_class = UserUpdateForm  # Используем форму обновления
+    form_class = UserUpdateForm  # Используем форму с полями пароля
     template_name = 'users/form.html'
     success_url = reverse_lazy('users:users')
     success_message = _('Пользователь успешно изменен!')
@@ -45,6 +45,11 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
             messages.error(request, _('У вас нет прав для изменения другого пользователя.'))
             return redirect('users:users')
         return super().dispatch(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = self.get_object()
+        return kwargs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
