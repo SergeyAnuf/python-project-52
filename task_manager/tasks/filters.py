@@ -1,8 +1,10 @@
 from django import forms
 import django_filters
 from .models import Task
-from task_manager.users.models import Users
+from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
+
+User = get_user_model()
 
 
 class TaskFilter(django_filters.FilterSet):
@@ -14,14 +16,29 @@ class TaskFilter(django_filters.FilterSet):
 
     class Meta:
         model = Task
-        fields = ['status', 'executor', 'labels', 'self_tasks']
+        fields = ['status', 'executor', 'labels']
 
     def __init__(self, *args, **kwargs):
+        # Получаем request из kwargs
         self.request = kwargs.pop('request', None)
         super().__init__(*args, **kwargs)
-        self.filters['executor'].queryset = Users.objects.all()
+
+        if self.request:
+            self.filters['executor'].queryset = User.objects.all()
+        else:
+            # Если request не передан, используем пустой queryset
+            self.filters['executor'].queryset = User.objects.none()
+
+        print(f"TaskFilter initialized. Request: {self.request}, User: {self.request.user if self.request else None}")
 
     def filter_self_tasks(self, queryset, name, value):
-        if value and self.request and self.request.user.is_authenticated:
+        print(f"Filtering self_tasks. Value: {value}, Type: {type(value)}")
+
+        # Проверяем значение чекбокса через GET-параметр
+        raw_value = self.data.get('self_tasks')
+        if raw_value == 'on' and self.request and self.request.user.is_authenticated:
+            print(f"Applying filter for user: {self.request.user}")
             return queryset.filter(author=self.request.user)
+
+        print("No self_tasks filter applied")
         return queryset
