@@ -38,7 +38,7 @@ class Task(models.Model):
         'labels.Label',  # Используем строковую ссылку
         blank=True,
         related_name='tasks',
-        verbose_name=_('Метки')
+        verbose_name=_('Метка')
     )
 
     def __str__(self):
