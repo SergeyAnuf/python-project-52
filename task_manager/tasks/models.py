@@ -27,18 +27,18 @@ class Task(models.Model):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        verbose_name=_('Executor')
+        verbose_name=_('Исполнитель')
     )
     status = models.ForeignKey(
         'statuses.Status',  # Используем строковую ссылку для избежания циклических импортов
         on_delete=models.PROTECT,
-        verbose_name=_('Status')
+        verbose_name=_('Статус')
     )
     labels = models.ManyToManyField(
         'labels.Label',  # Используем строковую ссылку
         blank=True,
         related_name='tasks',
-        verbose_name=_('Labels')
+        verbose_name=_('Метки')
     )
 
     def __str__(self):

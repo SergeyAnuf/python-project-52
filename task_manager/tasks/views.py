@@ -35,7 +35,7 @@ class TaskListView(LoginRequiredMixin, FilterView):
 
 class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Task
-    form_class = TaskForm  # Должно быть TaskForm
+    form_class = TaskForm
     template_name = 'tasks/form.html'
     success_url = reverse_lazy('tasks:list')
     success_message = _('Задача успешно создана')

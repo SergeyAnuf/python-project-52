@@ -10,7 +10,7 @@ User = get_user_model()
 class TaskForm(forms.ModelForm):
     labels = forms.ModelMultipleChoiceField(
         queryset=Label.objects.all(),
-        widget=forms.SelectMultiple(attrs={'class': 'form-select'}),  # Изменили на SelectMultiple
+        widget=forms.SelectMultiple(attrs={'class': 'form-select'}),
         required=False,
         label=_('Метки')
     )
