@@ -35,7 +35,7 @@
                     <div class="col">{{ task.created_at|date:"d.m.Y H:i" }}</div>
                 </div>
                 <div class="row border-bottom p-2">
-                    <div class="col fw-bold">{% trans "Метки" %}</div>
+                    <div class="col fw-bold">{% trans "Метка" %}</div>
                     <div class="col">
                         {% for label in task.labels.all %}
                             <span class="badge bg-secondary">{{ label.name }}</span>
