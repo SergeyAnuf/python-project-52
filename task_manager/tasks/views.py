@@ -9,9 +9,7 @@ from .models import Task
 from .forms import TaskForm
 from django_filters.views import FilterView
 from .filters import TaskFilter
-from task_manager.statuses.models import Status  # Импорт модели статусов
-from task_manager.labels.models import Label  # Импорт модели меток
-from django.contrib.auth import get_user_model  # Импорт функции получения модели пользователя
+from django.contrib.auth import get_user_model
 
 
 class TaskListView(LoginRequiredMixin, FilterView):
@@ -23,33 +21,16 @@ class TaskListView(LoginRequiredMixin, FilterView):
 
     def get_filterset_kwargs(self, filterset_class):
         kwargs = super().get_filterset_kwargs(filterset_class)
-        # Убедимся, что request передается в фильтр
         kwargs['request'] = self.request
         return kwargs
 
     def get_queryset(self):
-        queryset = super().get_queryset().prefetch_related('author', 'executor', 'labels')
-        print(f"Initial queryset count: {queryset.count()}")
-
-        # Создаем фильтр с явной передачей request
-        self.filterset = self.filterset_class(
-            data=self.request.GET,
-            queryset=queryset,
-            request=self.request  # Ключевая строка!
-        )
-
-        if not self.filterset.is_valid():
-            print(f"Filterset errors: {self.filterset.errors}")
+        queryset = super().get_queryset()
 
         if self.request.GET.get('self_tasks') == 'on':
-            print("Applying DIRECT self_tasks filter")
             return queryset.filter(author=self.request.user)
 
         return queryset
-
-        filtered_qs = self.filterset.qs.distinct()
-        print(f"Filtered queryset count: {filtered_qs.count()}")
-        return filtered_qs
 
 
 class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
