@@ -13,7 +13,7 @@
     {% else %}
         {% if is_used %}
         <div class="alert alert-danger" role="alert">
-            {% trans "Невозможно удалить статус, потому что он используется в одной или нескольких задачах" %}
+            {% trans "Невозможно удалить статус, потому что он используется" %}
         </div>
         <a href="{% url 'statuses:list' %}" class="btn btn-secondary">{% trans "Вернуться к списку статусов" %}</a>
         {% else %}
