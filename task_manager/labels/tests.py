@@ -1,6 +1,5 @@
 from django.test import TestCase
 from django.urls import reverse
-from django.urls import reverse
 from django.contrib.auth import get_user_model
 from task_manager.tasks.models import Task, Status
 from .models import Label
