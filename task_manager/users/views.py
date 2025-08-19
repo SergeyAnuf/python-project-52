@@ -17,6 +17,7 @@ class UserListView(ListView):
     template_name = 'users/list.html'
     context_object_name = 'users'
 
+
 class UserCreateView(CreateView):
     model = Users
     form_class = UserForm  # Используем форму создания
@@ -33,6 +34,7 @@ class UserCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = _('Регистрация')
         return context
+
 
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Users
@@ -60,6 +62,7 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         context['title'] = _('Изменить пользователя')
         return context
 
+
 class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = Users
     template_name = 'users/delete.html'
@@ -86,6 +89,7 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
         messages.success(request, self.success_message)
         return self.delete(request, *args, **kwargs)
 
+
 class CustomLoginView(LoginView):
     template_name = 'users/login.html'
 
@@ -96,6 +100,7 @@ class CustomLoginView(LoginView):
 
     def get_success_url(self):
         return reverse_lazy('home')
+
 
 def custom_logout(request):
     logout(request)

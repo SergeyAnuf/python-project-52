@@ -28,7 +28,7 @@ class Task(models.Model):
         verbose_name=_('Исполнитель')
     )
     status = models.ForeignKey(
-        'statuses.Status',  # Используем строковую ссылку для избежания циклических импортов
+        'statuses.Status',
         on_delete=models.PROTECT,
         verbose_name=_('Статус')
     )
