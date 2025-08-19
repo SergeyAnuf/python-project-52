@@ -74,24 +74,22 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'tasks/delete.html'
     success_url = reverse_lazy('tasks:list')
     success_message = _('Задача успешно удалена')
-    error_message = _('Задача не может быть удалена')
+    error_message = _('Задачу может удалить только ее автор')
 
-    def get(self, request, *args, **kwargs):
-        task = self.get_object()
-        if task.author != request.user:
-            messages.error(request, _('Только автор может удалить задачу'))
-            return redirect(self.success_url)
-        return super().get(request, *args, **kwargs)
+    def dispatch(self, request, *args, **kwargs):
+        # Проверка аутентификации
+        if not request.user.is_authenticated:
+            messages.error(request, _('Вы не авторизованы! Пожалуйста, войдите в систему.'))
+            return redirect(reverse_lazy('login'))
 
-    def post(self, request, *args, **kwargs):
-        task = self.get_object()
-        if task.author != request.user:
-            messages.error(request, _('Только автор может удалить задачу'))
-            return redirect(self.success_url)
-        try:
-            response = super().post(request, *args, **kwargs)
-            messages.success(request, self.success_message)
-            return response
-        except Exception:
+        # Проверка авторства
+        self.object = self.get_object()
+        if self.object.author != request.user:
             messages.error(request, self.error_message)
             return redirect(self.success_url)
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, self.success_message)
+        return super().delete(request, *args, **kwargs)
