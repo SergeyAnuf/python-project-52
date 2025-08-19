@@ -69,7 +69,7 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return context
 
 
-class TaskDeleteView(LoginRequiredMixin, DeleteView):
+class TaskDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Task
     template_name = 'tasks/delete.html'
     success_url = reverse_lazy('tasks:list')
@@ -77,12 +77,10 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
     error_message = _('Задачу может удалить только ее автор')
 
     def dispatch(self, request, *args, **kwargs):
-        # Проверка аутентификации
         if not request.user.is_authenticated:
             messages.error(request, _('Вы не авторизованы! Пожалуйста, войдите в систему.'))
             return redirect(reverse_lazy('login'))
 
-        # Проверка авторства
         self.object = self.get_object()
         if self.object.author != request.user:
             messages.error(request, self.error_message)
@@ -91,5 +89,6 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
         return super().dispatch(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
+        response = super().delete(request, *args, **kwargs)
         messages.success(request, self.success_message)
-        return super().delete(request, *args, **kwargs)
+        return response
