@@ -38,7 +38,7 @@ class UserCreateView(CreateView):
 
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Users
-    form_class = UserUpdateForm  # Используем форму с полями пароля
+    form_class = UserUpdateForm
     template_name = 'users/form.html'
     success_url = reverse_lazy('users:users')
     success_message = _('Пользователь успешно изменен!')

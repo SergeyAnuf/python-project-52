@@ -33,7 +33,7 @@ class Task(models.Model):
         verbose_name=_('Статус')
     )
     labels = models.ManyToManyField(
-        'labels.Label',  # Используем строковую ссылку
+        'labels.Label',
         blank=True,
         related_name='tasks',
         verbose_name=_('Метка')

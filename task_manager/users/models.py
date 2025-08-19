@@ -4,16 +4,13 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Users(AbstractUser):
-    # Эти поля уже есть в AbstractUser, но мы делаем их обязательными
     first_name = models.CharField(_("first name"), max_length=150, blank=False)
     last_name = models.CharField(_("last name"), max_length=150, blank=False)
 
     def get_full_name(self):
-        """Возвращает полное имя пользователя"""
         return f"{self.first_name} {self.last_name}".strip()
 
     def __str__(self):
-        """Для отображения в выпадающих списках"""
         return self.get_full_name() or self.username
 
     class Meta:

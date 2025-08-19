@@ -51,13 +51,10 @@ class LabelDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Убрали проверку использования метки из GET-контекста
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
-
-        # Проверяем, используется ли метка в задачах
         if Task.objects.filter(labels=self.object).exists():
             messages.error(request, self.error_message)
             return redirect(self.success_url)

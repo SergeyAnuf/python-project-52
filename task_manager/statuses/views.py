@@ -8,7 +8,7 @@ from django.db.models import ProtectedError
 from django.shortcuts import redirect
 from .models import Status
 from .forms import StatusForm
-from task_manager.tasks.models import Task  # Импорт модели Task
+from task_manager.tasks.models import Task
 
 
 class StatusListView(LoginRequiredMixin, ListView):
@@ -61,13 +61,11 @@ class StatusDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Убрали проверку использования статуса из GET-контекста
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
 
-        # Переносим проверку использования статуса в POST-обработчик
         if Task.objects.filter(status=self.object).exists():
             messages.error(request, self.error_message)
             return redirect(self.success_url)

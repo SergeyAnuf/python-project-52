@@ -6,7 +6,6 @@ from django.utils.translation import gettext_lazy as _
 from .models import Users
 
 
-# Форма для создания пользователя
 class UserForm(UserCreationForm):
     class Meta:
         model = Users
@@ -43,7 +42,6 @@ class UserForm(UserCreationForm):
         self.fields['last_name'].required = True
 
 
-# Форма для обновления пользователя (с полями пароля)
 class UserUpdateForm(UserCreationForm):
     class Meta:
         model = Users
@@ -67,11 +65,8 @@ class UserUpdateForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Делаем поля пароля необязательными
         self.fields['password1'].required = False
         self.fields['password2'].required = False
-
-        # Настраиваем подсказки
         self.fields['password1'].label = _('Пароль')
         self.fields['password2'].label = _('Подтверждение пароля')
         self.fields['password1'].help_text = _(
@@ -87,12 +82,10 @@ class UserUpdateForm(UserCreationForm):
         password1 = cleaned_data.get("password1")
         password2 = cleaned_data.get("password2")
 
-        # Проверяем только если хотя бы одно поле пароля заполнено
         if password1 or password2:
             if password1 != password2:
                 raise ValidationError(_("Пароли не совпадают"))
 
-            # Валидация пароля
             try:
                 validate_password(password1, self.instance)
             except ValidationError as e:
@@ -103,7 +96,6 @@ class UserUpdateForm(UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit=False)
 
-        # Обновляем пароль только если он был указан
         if self.cleaned_data.get("password1"):
             user.set_password(self.cleaned_data["password1"])
 
