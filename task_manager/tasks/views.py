@@ -9,7 +9,6 @@ from .models import Task
 from .forms import TaskForm
 from django_filters.views import FilterView
 from .filters import TaskFilter
-from django.contrib.auth import get_user_model
 
 
 class TaskListView(LoginRequiredMixin, FilterView):
