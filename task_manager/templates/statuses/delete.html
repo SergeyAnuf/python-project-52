@@ -11,20 +11,15 @@
     </div>
     <a href="{% url 'login' %}" class="btn btn-primary">{% trans "Войти" %}</a>
     {% else %}
-        {% if is_used %}
-        <div class="alert alert-danger" role="alert">
-            {% trans "Невозможно удалить статус, потому что он используется" %}
-        </div>
-        <a href="{% url 'statuses:list' %}" class="btn btn-secondary">{% trans "Вернуться к списку статусов" %}</a>
-        {% else %}
-        <p>{% trans "Вы действительно хотите удалить статус" %} <strong>{{ object.name }}</strong>?</p>
+    <p>{% trans "Вы действительно хотите удалить статус" %} <strong>{{ object.name }}</strong>?</p>
 
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger">{% trans "Да, удалить" %}</button>
-            <a href="{% url 'statuses:list' %}" class="btn btn-secondary">{% trans "Отмена" %}</a>
-        </form>
-        {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">
+            {% trans "Да, удалить" %}
+        </button>
+        <a href="{% url 'statuses:list' %}" class="btn btn-secondary">{% trans "Отмена" %}</a>
+    </form>
     {% endif %}
 </div>
 {% endblock %}

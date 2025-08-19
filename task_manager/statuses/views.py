@@ -59,14 +59,13 @@ class StatusDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Проверяем, используется ли статус в задачах
-        context['is_used'] = Task.objects.filter(status=self.object).exists()
+        # Убрали проверку использования статуса из GET-контекста
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
 
-        # Проверяем, используется ли статус в задачах
+        # Переносим проверку использования статуса в POST-обработчик
         if Task.objects.filter(status=self.object).exists():
             messages.error(request, self.error_message)
             return redirect(self.success_url)
