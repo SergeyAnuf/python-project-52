@@ -21,10 +21,13 @@ class UserCRUDTest(TestCase):
 
     def test_user_update(self):
         self.client.login(username='testuser', password='testpass123')
-        response = self.client.post(reverse('user_update', args=[self.user.id]), {
+        response = self.client.post(
+            reverse('user_update', args=[self.user.id]),
+            {
             'username': 'updateduser',
             'first_name': 'Updated',
-        })
+            }
+        )
         self.assertEqual(response.status_code, 302)
         self.user.refresh_from_db()
         self.assertEqual(self.user.username, 'updateduser')

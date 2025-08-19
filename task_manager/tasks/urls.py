@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import get_user_model
+from django.shortcuts import redirect
+
 
 def check_users_exist(request):
     if not get_user_model().objects.exists():

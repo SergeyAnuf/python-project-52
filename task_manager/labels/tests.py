@@ -1,6 +1,5 @@
 from django.test import TestCase
-
-# Create your tests here.
+from django.urls import reverse
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from task_manager.tasks.models import Task, Status
@@ -22,7 +21,9 @@ class LabelCRUDTest(TestCase):
         self.assertContains(response, self.label.name)
 
     def test_label_create_view(self):
-        response = self.client.post(reverse('labels:create'), {'name': 'New Label'})
+        response = self.client.post(
+            reverse('labels:create'),
+            {'name': 'New Label'})
         self.assertEqual(response.status_code, 302)
         self.assertTrue(Label.objects.filter(name='New Label').exists())
 
@@ -58,7 +59,10 @@ class LabelCRUDTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertTrue(Label.objects.filter(id=self.label.id).exists())
         response = self.client.get(reverse('labels:list'))
-        self.assertContains(response, "Cannot delete label because it is in use")
+        self.assertContains(
+            response,
+            "Cannot delete label because it is in use"
+        )
 
 
 class LabelAccessTest(TestCase):

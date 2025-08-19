@@ -77,7 +77,10 @@ class TaskDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            messages.error(request, _('Вы не авторизованы! Пожалуйста, войдите в систему.'))
+            messages.error(
+                request,
+                _('Вы не авторизованы! Пожалуйста, войдите в систему.')
+            )
             return redirect(reverse_lazy('login'))
 
         self.object = self.get_object()

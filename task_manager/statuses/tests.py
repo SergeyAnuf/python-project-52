@@ -21,7 +21,10 @@ class StatusCRUDTest(TestCase):
         self.assertContains(response, self.status.name)
 
     def test_status_create_view(self):
-        response = self.client.post(reverse('statuses:create'), {'name': 'New Status'})
+        response = self.client.post(
+            reverse('statuses:create'),
+            {'name': 'New Status'}
+        )
         self.assertEqual(response.status_code, 302)
         self.assertTrue(Status.objects.filter(name='New Status').exists())
 

@@ -7,9 +7,10 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.utils.translation import gettext as _
-from .forms import UserForm, UserUpdateForm  # Импортируем обе формы
+from .forms import UserForm, UserUpdateForm
 from .models import Users
 from task_manager.tasks.models import Task
+
 
 class UserListView(ListView):
     model = Users
@@ -42,7 +43,10 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.pk != self.get_object().pk:
-            messages.error(request, _('У вас нет прав для изменения другого пользователя.'))
+            messages.error(
+                request,
+                _('У вас нет прав для изменения другого пользователя.')
+            )
             return redirect('users:users')
         return super().dispatch(request, *args, **kwargs)
 
@@ -61,17 +65,22 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'users/delete.html'
     success_url = reverse_lazy('users:users')
     success_message = _('Пользователь успешно удален!')
-    error_message = _('Невозможно удалить пользователя, потому что он связан с задачей')
+    error_message = _(
+        'Невозможно удалить пользователя, потому что он связан с задачей'
+    )
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.pk != self.get_object().pk:
-            messages.error(request, _('У вас нет прав для изменения другого пользователя.'))
+            messages.error(request, _(
+                'У вас нет прав для изменения другого пользователя.')
+            )
             return redirect('users:users')
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         user = self.get_object()
-        if Task.objects.filter(author=user).exists() or Task.objects.filter(executor=user).exists():
+        if (Task.objects.filter(author=user).exists() or
+            Task.objects.filter(executor=user).exists()):
             messages.error(request, self.error_message)
             return redirect(self.success_url)
         messages.success(request, self.success_message)
