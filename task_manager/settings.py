@@ -111,7 +111,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'src/task_manager/templates',
+            BASE_DIR / 'templates',
             BASE_DIR / 'templates/django_bootstrap5',
         ],
         'APP_DIRS': True,
