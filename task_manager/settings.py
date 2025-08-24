@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 import dj_database_url
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-
+import rollbar
 import sys
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(BASE_DIR)
@@ -33,9 +33,6 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-backup-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = os.getenv('DEBUG', 'True') == 'True'
 DEBUG = True
-
-import os
-import rollbar
 
 # Rollbar Settings
 ROLLBAR_ACCESS_TOKEN = os.getenv('ROLLBAR_ACCESS_TOKEN')
