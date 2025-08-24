@@ -19,7 +19,7 @@ render-start:
 		uv run gunicorn --bind 0.0.0.0:$(PORT) task_manager.wsgi:application
 
 collectstatic:
-    python manage.py collectstatic --noinput
+		python manage.py collectstatic --noinput
 
 migrate:
-    python manage.py migrate
+		python manage.py migrate
