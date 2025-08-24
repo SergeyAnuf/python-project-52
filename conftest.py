@@ -6,6 +6,7 @@ from pathlib import Path
 root = Path(__file__).resolve().parent
 sys.path.insert(0, str(root))
 
-import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'task_manager.settings')
-django.setup()
+
+import django  # noqa: E402
+django.setup()  # noqa: E402
