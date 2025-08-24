@@ -18,8 +18,8 @@ from django.http import Http404
 from django.core.exceptions import PermissionDenied
 import rollbar
 import sys
+
 BASE_DIR = Path(__file__).resolve().parent.parent
-sys.path.append(BASE_DIR)
 
 # Загрузка переменных окружения
 load_dotenv()
@@ -31,31 +31,11 @@ load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-backup-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = os.getenv('DEBUG', 'True') == 'True'
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 # Rollbar Settings
 ROLLBAR_ACCESS_TOKEN = os.getenv('ROLLBAR_ACCESS_TOKEN')
 
-
-
-    # Rollbar Configuration
-ROLLBAR = {
-    'access_token': ROLLBAR_ACCESS_TOKEN,
-    'environment': 'development' if DEBUG else 'production',
-    'scrub_fields': ['password', 'secret', 'token', 'api_key'],
-    'branch': 'main',
-    'code_version': '1.0',
-    'root': BASE_DIR,
-    'exception_level_filters': [
-        (Http404, 'ignored'),
-        (PermissionDenied, 'warning'),
-    ],
-    'enabled': not DEBUG,  # Отключаем в режиме разработки
-}
-
-# Initialize Rollbar
-rollbar.init(**ROLLBAR)
 
 ALLOWED_HOSTS = [
     'python-project-52-ru09.onrender.com',
@@ -74,7 +54,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'task_manager',
     'django_bootstrap5',
-    'task_manager.users.apps.UsersConfig',
+#    'task_manager.users.apps.UsersConfig',
+    'task_manager.users',
     'task_manager.statuses',
     'task_manager.tasks',
     'task_manager.labels',
@@ -177,14 +158,15 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Используйте BASE_DIR вместо абсолютного пути
+    BASE_DIR / "static",
 ]
-STATIC_ROOT = BASE_DIR /'staticfiles'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Ensure the static directory exists
+if not (BASE_DIR / "static").exists():
+    (BASE_DIR / "static").mkdir()
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -194,3 +176,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+    if ROLLBAR_ACCESS_TOKEN:
+        ROLLBAR = {
+            'access_token': ROLLBAR_ACCESS_TOKEN,
+            'environment': 'development' if DEBUG else 'production',
+            'scrub_fields': ['password', 'secret', 'token', 'api_key'],
+            'branch': 'main',
+            'code_version': '1.0',
+            'root': BASE_DIR,
+            'exception_level_filters': [
+                (Http404, 'ignored'),
+                (PermissionDenied, 'warning'),
+            ],
+            'enabled': not DEBUG,
+        }
+        rollbar.init(**ROLLBAR)
