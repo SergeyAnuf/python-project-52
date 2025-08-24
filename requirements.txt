@@ -1,7 +1,0 @@
-django
-gunicorn
-whitenoise
-django-bootstrap5
-dj-database-url
-python-dotenv
-django-filter
