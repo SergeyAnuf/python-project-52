@@ -23,4 +23,13 @@ dev = [
 ]
 
 [tool.setuptools]
-packages = ["task_manager"]
+packages = find_packages(include=[
+        'task_manager',
+        'task_manager.*',
+        'users',
+        'statuses',
+        'labels',
+        'tasks',
+        'locale',
+        'staticfiles'
+    ]),
