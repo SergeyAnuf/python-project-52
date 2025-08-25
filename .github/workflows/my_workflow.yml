@@ -26,9 +26,3 @@ jobs:
       - name: Run linter
         run:
           make lint
-
-#
-#      - uses: qltysh/qlty-action/coverage@main
-#        with:
-#          coverage-token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
-#          files: target/lcov.info
